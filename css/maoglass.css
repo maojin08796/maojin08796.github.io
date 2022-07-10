@@ -1,0 +1,129 @@
+/*标题栏*/
+#page-header.nav-visible #nav {
+  background: rgba(255,255,255,.4)!important;
+-webkit-backdrop-filter: saturate(100%) blur(10px);
+backdrop-filter: saturate(100%) blur(10px)!important;
+}
+
+[data-theme="dark"]
+#page-header.nav-visible #nav {
+  background: rgba(0, 0, 0, 0.3)!important;
+}
+
+/*搜索框美化*/
+.search-dialog {
+  background: rgba(255,255,255,.4)!important;
+-webkit-backdrop-filter: saturate(180%) blur(30px);
+backdrop-filter: saturate(180%) blur(30px)!important;
+}
+
+[data-theme="dark"]
+.search-dialog {
+  background: rgba(0, 0, 0, 0.3)!important;
+}
+
+#search-mask {
+  background: rgba(255,255,255,.4)!important;
+-webkit-backdrop-filter: saturate(180%) blur(30px);
+backdrop-filter: saturate(180%) blur(30px)!important;
+}
+
+[data-theme="dark"]
+#search-mask {
+  background: rgba(0, 0, 0, 0.3)!important;
+}
+
+/*手机端毛玻璃优化*/
+#sidebar #sidebar-menus.open {
+  background: rgba(255,255,255,.4)!important;
+-webkit-backdrop-filter: saturate(180%) blur(30px);
+backdrop-filter: saturate(180%) blur(30px)!important;
+}
+#sidebar #menu-mask {
+  background: rgba(255,255,255,.4)!important;
+-webkit-backdrop-filter: saturate(180%) blur(30px);
+backdrop-filter: saturate(180%) blur(30px)!important;
+}
+
+[data-theme="dark"]
+#sidebar #sidebar-menus.open {
+  background: rgba(0, 0, 0, 0.3)!important;
+}
+
+[data-theme="dark"]
+#sidebar #menu-mask {
+  background: rgba(0, 0, 0, 0.3)!important;
+}
+
+
+/*所有页面实现毛玻璃特效*/
+#aside-content > .card-widget:first-child {
+  background: rgba(255,255,255,.4)!important;
+-webkit-backdrop-filter: saturate(180%) blur(30px);
+backdrop-filter: saturate(180%) blur(30px)!important;
+}
+
+#aside-content .card-widget {
+    background: rgba(255,255,255,0.5);
+    backdrop-filter: blur(10px);
+}
+
+
+.layout > div:first-child:not(.recent-posts) {
+  background: rgba(255,255,255,.6)!important;
+-webkit-backdrop-filter: saturate(250%) blur(30px);
+backdrop-filter: saturate(250%) blur(30px)!important;
+}
+
+#recent-posts > .recent-post-item {
+  background: rgba(255,255,255,.6)!important;
+-webkit-backdrop-filter: saturate(180%) blur(30px);
+backdrop-filter: saturate(180%) blur(30px)!important;
+}
+
+[data-theme="dark"]
+#aside-content .card-widget {
+  background: rgba(0, 0, 0, 0.3)!important;
+}
+
+[data-theme="dark"]
+#recent-posts > .recent-post-item {
+  background: rgba(0, 0, 0, 0.3)!important;
+}
+
+[data-theme="dark"]
+.layout > div:first-child:not(.recent-posts) {
+  background: rgba(0, 0, 0, 0.3)!important;
+}
+
+[data-theme="dark"]
+#aside-content > .card-widget:first-child {
+  background: rgba(0, 0, 0, 0.3)!important;
+}
+
+
+
+
+/*10s为加载动画的时间，1为加载动画的次数，ease-in-out为动画效果*/
+#page-header,
+#web_bg {
+    -webkit-animation: imgblur 2s 1 ease-in-out;
+    animation: imgblur 2s 1 ease-in-out;
+}
+@keyframes imgblur {
+  0% {
+    filter: blur(5px);
+  }
+  100% {
+    filter: blur(0px);
+  }
+}
+/*适配使用-webkit内核的浏览器 */
+@-webkit-keyframes imgblur {
+  0% {
+    -webkit-filter: blur(5px);
+  }
+  100% {
+    -webkit-filter: blur(0px);
+  }
+}

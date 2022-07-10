@@ -5,21 +5,24 @@
 
 /*修改插件整体背景*/
 .aplayer.aplayer-fixed {
-    background: rgba(255,255,255,0.6);
-    backdrop-filter: blur(10px);
-    border-radius:0 4px 0 0!important;
-}
+    background: rgba(255,255,255,0.6)!important;
+  -webkit-backdrop-filter: saturate(180%) blur(10px);
+  backdrop-filter: saturate(180%) blur(10px)!important;
+  }
 
 .aplayer-body{
     background: rgba(255,255,255,0.1)!important;
-    backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: saturate(180%) blur(10px);
+  backdrop-filter: saturate(180%) blur(10px)!important;
+  }
 }
 
 /*修改列表正在播放的歌曲背景*/
 .aplayer-list-light{
     background: rgba(255,255,255,0.1)!important;
-    backdrop-filter: blur(10px);
-}
+  -webkit-backdrop-filter: saturate(180%) blur(10px);
+  backdrop-filter: saturate(180%) blur(10px)!important;
+  }
 
 /*修改歌曲列表背景*/
 .aplayer-list {
@@ -30,8 +33,9 @@
 /*修改歌曲列表鼠标悬停时背景*/
 .aplayer-list li:hover {
     background: rgba(255, 255, 255, 0.1) !important;
-    backdrop-filter: blur(15px);
-}
+  -webkit-backdrop-filter: saturate(180%) blur(15px);
+  backdrop-filter: saturate(180%) blur(15px)!important;
+  }
 
 /*修改播放列表正在播放歌曲左侧提示条颜色*/
 .aplayer-list-cur{
