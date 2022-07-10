@@ -1,13 +1,8 @@
 @font-face{
-    font-family: 'JetBrains Mono';
+    font-family: 'MiSans';
     font-display: swap;
-    src: url('../font/JetBrainsMono-Regular.ttf') format("truetype");
-}
-@font-face{
-    font-family: 'HarmonyOS Sans SC';
-    font-display: swap;
-    src: url('../font/HarmonyOS_Sans_SC_Regular.ttf') format("truetype");
+    src: url('../font/MiSans-Demibold.ttf') format("truetype");
 }
 body {
-    font-family: 'JetBrains Mono','HarmonyOS Sans SC';
+    font-family: 'JetBrains Mono','MiSans';
 }
