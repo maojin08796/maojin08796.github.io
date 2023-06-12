@@ -1,0 +1,1 @@
+var posts=["2022/06/11/Hexo Butterfly主题下更换字体/","2023/06/10/hello-world/","2022/06/19/hexo博客之Butterfly主题优雅更换背景/","2021/08/09/回忆录/","2021/08/02/最重要的人/","2022/04/05/清明节/"];function toRandomPost(){pjax.loadUrl('/'+posts[Math.floor(Math.random() * posts.length)]);};
