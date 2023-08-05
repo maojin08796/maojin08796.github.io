@@ -1,0 +1,24 @@
+@font-face{
+    font-family: 'MiSans-Bold';
+    font-display: swap;
+    src: url('../font/MiSans-Bold.ttf') format("truetype");
+}
+@font-face{
+    font-family: 'Hanyi-vivo 75S';
+    font-weight: 1000;
+    font-display: swap;
+    src: url('../font/Hanyi-vivo 75S.ttf') format("truetype");
+}
+body {
+    font-family: 'Hanyi-vivo 75S';
+}
+
+h1#site-title {
+    font-family:MiSans-Bold!important
+}
+span#subtitle {
+    font-family:MiSans-Bold!important
+}
+a#site-name {
+    font-family:MiSans-Bold!important
+}
