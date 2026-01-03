@@ -1,0 +1,876 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><title>OSPF基础与路由计算 | 樂乐の博客</title><meta name="keywords" content="eNSP"><meta name="author" content="樂乐"><meta name="copyright" content="樂乐"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#f7f9fe"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="apple-mobile-web-app-title" content="OSPF基础与路由计算"><meta name="application-name" content="OSPF基础与路由计算"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="#f7f9fe"><meta property="og:type" content="article"><meta property="og:title" content="OSPF基础与路由计算"><meta property="og:url" content="http://maojin08796.github.io/2024/12/18/12.18/index.html"><meta property="og:site_name" content="樂乐の博客"><meta property="og:description" content="eNSP"><meta property="og:locale" content="zh-CN"><meta property="og:image" content="https://s2.loli.net/2023/06/26/f2knxLCUB9yFQXr.png"><meta property="article:author" content="樂乐"><meta property="article:tag" content="樂乐"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="https://s2.loli.net/2023/06/26/f2knxLCUB9yFQXr.png"><meta name="description" content="eNSP"><link rel="shortcut icon" href="/favicon.ico"><link rel="canonical" href="http://maojin08796.github.io/2024/12/18/12.18/"><link rel="preconnect" href="//cdn.cbd.int"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="xxx"/><meta name="baidu-site-verification" content="code-xxx"/><meta name="msvalidate.01" content="xxx"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/@fancyapps/ui@5.0.28/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/swiper/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://unpkg.com/vivo-sans-webfont-splitted@1.2.0/dist/vivo_Sans/Medium/Medium.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  linkPageTop: undefined,
+  peoplecanvas: undefined,
+  postHeadAiDescription: {"enable":true,"gptName":"AnZhiYu","mode":"local","switchBtn":false,"btnLink":"https://afdian.net/item/886a79d4db6711eda42a52540025c377","randomNum":3,"basicWordCount":1000,"key":"xxxx","Referer":"https://xx.xx/"},
+  diytitle: {"enable":true,"leaveTitle":"w(ﾟДﾟ)w 不要走！再看看嘛！","backTitle":"♪(^∇^*)欢迎肥来！"},
+  LA51: {"enable":true,"ck":"3ExLq5aiEcFjikZp","LingQueMonitorID":"3HPQVaoj9bs7V47f"},
+  greetingBox: {"enable":true,"default":"晚上好👋","list":[{"greeting":"晚安😴","startTime":0,"endTime":5},{"greeting":"早上好鸭👋, 祝你一天好心情！","startTime":6,"endTime":9},{"greeting":"上午好👋, 状态很好，鼓励一下～","startTime":10,"endTime":10},{"greeting":"11点多啦, 在坚持一下就吃饭啦～","startTime":11,"endTime":11},{"greeting":"午安👋, 宝贝","startTime":12,"endTime":14},{"greeting":"🌈充实的一天辛苦啦！","startTime":14,"endTime":18},{"greeting":"19点喽, 奖励一顿丰盛的大餐吧🍔。","startTime":19,"endTime":19},{"greeting":"晚上好👋, 在属于自己的时间好好放松😌~","startTime":20,"endTime":24}]},
+  twikooEnvId: 'https://twikoo-maojin.netlify.app/.netlify/functions/twikoo',
+  commentBarrageConfig:undefined,
+  music_page_default: "nav_music",
+  root: '/',
+  preloader: {"source":3},
+  friends_vue_info: undefined,
+  navMusic: true,
+  mainTone: undefined,
+  authorStatus: {"skills":["🤖️ 数码科技爱好者","🔍 分享与热心帮助","🏠 智能家居小能手","🔨 设计开发一条龙","🤝 专修交互与设计","🏃 脚踏实地行动派","🧱 团队小组发动机","💢 壮汉人狠话不多"]},
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简","rightMenuMsgToTraditionalChinese":"转为繁体","rightMenuMsgToSimplifiedChinese":"转为简体"},
+  noticeOutdate: {"limitDay":180,"position":"top","messagePrev":"距离上次更新已经","messageNext":"天了，文章内容可能已经过时。"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":330},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    simplehomepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"copy":true,"copyrightEbable":false,"limitCount":50,"languages":{"author":"作者: 樂乐","link":"链接: ","source":"来源: 樂乐の博客","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。","copySuccess":"复制成功，复制和转载请标注本文地址"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#425AEF","bgDark":"#1f1f1f","position":"top-center"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.min.js',
+      css: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  shortcutKey: {"enable":true,"delay":100,"shiftDelay":200},
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  configTitle: '樂乐の博客',
+  title: 'OSPF基础与路由计算',
+  postAI: '',
+  pageFillDescription: 'OSPF基础与路由计算, OSPF基础, 前言, 目标, 动态路由协议简介, 链路状态路由协议, OSPF概述, OSPF应用场景, OSPF基础术语, OSPF三大表项, OSPF报文格式和类型, OSPF工作过程概览, 建立邻居关系, 建立邻接关系, DR与BDR的作用, 配置命令介绍, 配置验证, 思考题, OSPF路由计算, 前言, 目录, LSA基本概念, 常见LSA类型, Router-LSA详解, Network-LSA详解, SPF算法, 区域间路由计算, 虚连接的作用及配置, 外部路由计算, 思考题, 本章总结, OSPF特殊区域及其他特性, 前言, 目标, 目录, Stub区域, Totally Stub区域, NSSA区域, Totally NSSA区域, 区域间路由汇总, 外部路由汇总, Silent-Interface, OSPF报文认证, 思考题, 本章总结, IS-IS原理与配置, 前言, 目标, 目录, IS-IS概述, NSAP, NET, IS-IS区域划分, IS-IS路由器分类, IS-IS支持的网络类型, IS-IS开销值, IS-IS报文格式, IS-IS邻接关系建立, LSP, LSDB同步, 路由计算, IS-IS协议的基本配置, 路由渗透, IS-IS认证基础与路由计算基础前言路由表生成路由器根据路由表转发数据包路由表项可通过手动配置和动态路由协议生成静态路由使用较少的带宽不占用资源但网络故障或拓扑变化后需手动重新配置动态路由协议具有更强的可扩展性和应变能力作为优秀的内部网关协议被广泛使用目标描述路由计算的整体过程阐明与的作用描述报文类型和作用实现的基本配置区分邻居关系和邻接关系动态路由协议简介内部网关协议外部网关协议工作机制及算法分类距离矢量路由协议链路状态路由协议链路状态路由协议泛洪路由器之间建立邻居关系交互链路状态通告维护路由器存储到链路状态数据库通过解析了解全网拓扑计算基于使用算法计算无环最短路径树路由表生成将计算出的优选路径加载到路由表概述定义定义的基于链路状态的内部网关路由协议版本优点基于算法支持组播区域划分等价路由负载分担报文认证应用场景大型企业网络核心和汇聚层部署在骨干区域接入和汇聚层部署在非骨干区域基础术语在自治系统中唯一标识一台运行的路由器区域逻辑上划分设备组用区域号标识度量值使用作为路由度量值接口值可配置三大表项邻居表显示路由器之间的邻居状态通过查看保存自己产生及从邻居收到的信息通过查看路由表包含目的地下一跳等信息通过查看报文格式和类型报文类型协议号工作过程概览发现邻居通过报文发现直连链路上的邻居建立邻居关系协商主从关系交换报文建立邻接关系同步加载路由信息计算路由基于使用算法计算路由建立邻居关系报文包含邻居列表等信息用于邻居发现建立和保持建立邻接关系报文包含头部信息用于摘要信息交换报文用于请求更新和确认与的作用指定路由器负责在网络建立和维护邻接关系同步备份指定路由器在失效时接管的工作选举规则基于接口优先级和配置命令介绍启动进程创建并进入区域视图在区域中使能接口视图下使能配置验证查看接口信息查看邻居状态查看查看路由表思考题使用哪种报文维护邻居关系支持哪些网络类型广播路由计算前言区域划分缓解路由器压力支持外部路由引入课程目标解释关键字段描述类型及功能阐明算法描述路由计算原理目录区域内路由计算概述计算过程区域间路由计算外部路由计算基本概念重要字段生存时间支持的特性类型链路状态产生的路由器链路状态序列号校验和总长度常见类型描述路由器直连接口信息由产生描述网络链路状态由产生描述区域间路由由产生描述到的路由由产生描述外部路由详解包含信息直连接口的链路类型链路链路数据度量值链路类型详解包含信息接口地址网络子网掩码接入网络的路由器算法构建树根据和中的拓扑信息依次添加值最小的路由器计算最优路由将路由信息以叶子节点形式附加在树上区域间路由计算信息传递通过产生的实现防环机制所有非骨干区域必须与直接相连不会将到达某个区域内网段的类再注入回该区域从非骨干区域收到的类不能用于区域间路由计算虚连接的作用及配置作用使骨干区域在逻辑上连续不要求物理上连续配置在上配置虚连接指定对端的外部路由计算引入外部路由的路由器描述外部路由通告到所有区域除和区域由产生描述到的路由度量值类型内部开销外部开销仅外部开销思考题中主要包含哪几种链路类型经过算法计算后最优的路由一定会被放入路由器的路由表吗是本章总结区域内路由区域间路由外部路由的计算原理类型和算法的作用区域划分和虚连接在中的应用特殊区域及其他特性前言问题背景大型网络中路由器需维护域内域间外部路由的数据库网络规模扩大时链路状态数据库规模增长导致设备性能浪费解决方案通过特殊区域特性减少数量和路由表规模目标描述特殊区域类型及相关特征阐明路由汇总的应用场景及功能优势实现报文认证的配置目录区域和区域区域和区域区域间路由汇总和外部路由汇总协议特性区域定义区域的不向区域内传播外部路由区域内路由器通过生成的缺省路由到达外部配置要点骨干区域不能被配置为区域区域中的所有路由器都必须将该区域配置为区域内不能引入也不接收外部路由虚连接不能穿越区域区域定义既不允许外部路由也不允许区域间路由在本区域内传播区域内的路由器通过下发的缺省路由到达其他区域及外部配置要点在上需要追加关键字区域定义能够引入外部路由同时又不会学习来自网络其它区域引入的外部路由配置要点区域的产生类将类转化为类并注入到骨干区域区域定义与区域的配置区别在于在上需要追加关键字区域间路由汇总定义在上对区域间的路由执行路由汇总减小路由表规模配置命令外部路由汇总定义在上对引入的外部路由执行路由汇总配置命令定义不会接收和发送报文但其直连路由仍可以发布配置命令报文认证支持方式区域认证接口认证配置命令区域认证接口认证思考题多选题定义了哪些特殊区域简答题区域与区域的主要差别是什么区域间路由汇总功能在什么路由器上配置本章总结介绍了特殊区域及其配置要点阐述了路由汇总区域间外部的应用场景和配置方法讲解了协议特性包括和报文认证原理与配置前言定义为设计的动态路由协议后由扩展以支持路由称为集成课程目标描述的基本概念工作原理及配置方法目标描述的基本概念描述的工作原理描述与的差异实现的常用配置目录的基本概念工作原理的基本配置概述特点支持和网络采用数据链路层封装与的区别只支持网络采用报文封装定义网络服务访问点协议栈中用于定位资源的地址组成初始域部分和域特定部分定义网络实体名称设备的网络层信息用于路由计算组成区域地址和区域划分层次结构骨干区域由和路由器组成路由器分类路由器只与同一区域的和路由器形成邻接关系路由器与同一或不同区域的或路由器形成邻接关系路由器同时维护和的支持的网络类型广播网络如点到点网络如开销值定义路由度量值值越小路径越优确定方式接口开销全局开销自动计算开销报文格式类型通用头部字段协议鉴别符长度指示器版本协议标识扩展等邻接关系建立建立原则同一层次相同一致的网络类型相同的网段广播网络三次握手建立邻接关系选举点到点网络两次握手建立邻接关系华为设备默认使用三次握手定义链路状态报文用于交换链路状态信息类型字段剩余生存时间序列号校验和等同步包含中所有摘要用于判断是否需要同步包含部分摘要信息用于请求邻居发送新的路由计算路由器根据计算区域内路由路由器维护和计算区域内和区域间路由路由器根据计算全网路由协议的基本配置创建进程配置配置接口级别设置接口网络类型路由渗透定义将区域间路由通过路由器传递到区域配置命令认证类型接口认证区域认证路由域认证认证方式简单认证认证认证认证配置命令接口认证区域认证',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-12-18 19:52:46',
+  postMainColor: '',
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#18171d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f7f9fe')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 8 || hour >= 22
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(e => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body data-type="anzhiyu"><div id="web_bg"></div><div id="an_music_bg"></div><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><img class="loading-img nolazyload" alt="加载头像" src="https://npm.elemecdn.com/anzhiyu-blog-static@1.0.4/img/avatar.jpg"/><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.getElementById('loading-box').classList.add("loaded");
+  },
+  initLoading: () => {
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+setTimeout(function(){preloader.endLoading();},10000)
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.10/progress_bar/progress_bar.css"/><script async="async" src="https://cdn.cbd.int/pace-js@1.2.4/pace.min.js" data-pace-options="{ &quot;restartOnRequestAfter&quot;:false,&quot;eventLag&quot;:false}"></script><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><div id="nav-group"><span id="blog_name"><div class="back-home-button"><i class="anzhiyufont anzhiyu-icon-grip-vertical"></i><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">网页</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://blog.anheyu.com/" title="博客"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/favicon.ico" alt="博客"/><span class="back-menu-item-text">博客</span></a></div></div><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://image.anheyu.com/" title="安知鱼图床"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://image.anheyu.com/favicon.ico" alt="安知鱼图床"/><span class="back-menu-item-text">安知鱼图床</span></a></div></div></div></div><a id="site-name" href="/" accesskey="h"><div class="title">樂乐の博客</div><i class="anzhiyufont anzhiyu-icon-house-chimney"></i></a><div id="he-plugin-simple"></div><script>var WIDGET = {
+  "CONFIG": {
+    "modules": "0124",
+    "background": "2",
+    "tmpColor": "FFFFFF",
+    "tmpSize": "16",
+    "cityColor": "FFFFFF",
+    "citySize": "16",
+    "aqiColor": "E8D87B",
+    "aqiSize": "16",
+    "weatherIconSize": "24",
+    "alertIconSize": "18",
+    "padding": "10px 10px 10px 10px",
+    "shadow": "0",
+    "language": "auto",
+    "borderRadius": "20",
+    "fixed": "true",
+    "vertical": "top",
+    "horizontal": "left",
+    "left": "20",
+    "top": "7.1",
+    "key": "df245676fb434a0691ead1c63341cd94"
+  }
+}
+</script><link rel="stylesheet" href="https://widget.qweather.net/simple/static/css/he-simple.css?v=1.4.0"/><script src="https://widget.qweather.net/simple/static/js/he-simple.js?v=1.4.0"></script></span><div class="mask-name-container"><div id="name-container"><a id="page-name" href="javascript:anzhiyu.scrollToDest(0, 500)">PAGE_NAME</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> 隧道</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分类</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 友链</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/link/"><i class="anzhiyufont anzhiyu-icon-link faa-tada" style="font-size: 0.9em;"></i><span> 友人帐</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/comments/"><i class="anzhiyufont anzhiyu-icon-envelope faa-tada" style="font-size: 0.9em;"></i><span> 留言板</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 我的</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/music/?id=8335997312&amp;server=tencent"><i class="anzhiyufont anzhiyu-icon-music faa-tada" style="font-size: 0.9em;"></i><span> 音乐馆</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/bangumis/"><i class="anzhiyufont anzhiyu-icon-bilibili faa-tada" style="font-size: 0.9em;"></i><span> 追番页</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/cinemas/"><i class="anzhiyufont anzhiyu-icon-bilibili faa-tada" style="font-size: 0.9em;"></i><span> 追剧页</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/album/"><i class="anzhiyufont anzhiyu-icon-images faa-tada" style="font-size: 0.9em;"></i><span> 相册集</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/air-conditioner/"><i class="anzhiyufont anzhiyu-icon-fan faa-tada" style="font-size: 0.9em;"></i><span> 小空调</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 关于</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/about/"><i class="anzhiyufont anzhiyu-icon-paper-plane faa-tada" style="font-size: 0.9em;"></i><span> 关于本人</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/essay/"><i class="anzhiyufont anzhiyu-icon-lightbulb faa-tada" style="font-size: 0.9em;"></i><span> 闲言碎语</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/equipment/"><i class="anzhiyufont anzhiyu-icon-dice-d20 faa-tada" style="font-size: 0.9em;"></i><span> 我的装备</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/wish/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-fanchuan"></use></svg><span> 心愿池</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/todo/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-bijiben"></use></svg><span> 清单</span></a></li></ul></div></div></div><div id="nav-right"><div class="nav-button only-home" id="travellings_button" title="随机前往一个开往项目网站"><a class="site-page" onclick="anzhiyu.totraveling()" title="随机前往一个开往项目网站" href="javascript:void(0);" rel="external nofollow" data-pjax-state="external"><i class="anzhiyufont anzhiyu-icon-train"></i></a></div><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机前往一个文章" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-dice"></i></a></div><input id="center-console" type="checkbox"/><label class="widget" for="center-console" title="中控台" onclick="anzhiyu.switchConsole();"><i class="left"></i><i class="widget center"></i><i class="widget right"></i></label><div id="console"><div class="console-card-group-reward"><ul class="reward-all console-card"><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png" target="_blank"><img class="post-qr-code-img" alt="微信" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png" target="_blank"><img class="post-qr-code-img" alt="支付宝" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div><div class="console-card-group"><div class="console-card-group-left"><div class="console-card" id="card-newest-comments"><div class="card-content"><div class="author-content-item-tips">互动</div><span class="author-content-item-title"> 最新评论</span></div><div class="aside-list"><span>正在加载中...</span></div></div></div><div class="console-card-group-right"><div class="console-card tags"><div class="card-content"><div class="author-content-item-tips">兴趣点</div><span class="author-content-item-title">寻找你感兴趣的领域</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/ArchLinux/" style="font-size: 1.05rem;">ArchLinux<sup>1</sup></a><a href="/tags/Butterfly/" style="font-size: 1.05rem;">Butterfly<sup>1</sup></a><a href="/tags/Butterfly%E9%AD%94%E6%94%B9/" style="font-size: 1.05rem;">Butterfly魔改<sup>1</sup></a><a href="/tags/Hexo/" style="font-size: 1.05rem;">Hexo<sup>1</sup></a><a href="/tags/Markdown/" style="font-size: 1.05rem;">Markdown<sup>1</sup></a><a href="/tags/MathLax/" style="font-size: 1.05rem;">MathLax<sup>1</sup></a><a href="/tags/Python/" style="font-size: 1.05rem;">Python<sup>1</sup></a><a href="/tags/eNSP/" style="font-size: 1.05rem;">eNSP<sup>20</sup></a><a href="/tags/%E5%A4%A7%E5%AD%A6/" style="font-size: 1.05rem;">大学<sup>3</sup></a><a href="/tags/%E6%97%A5%E5%B8%B8/" style="font-size: 1.05rem;">日常<sup>4</sup></a><a href="/tags/%E6%A8%82%E8%B0%B1/" style="font-size: 1.05rem;">樂谱<sup>9</sup></a><a href="/tags/%E6%A8%A1%E6%8B%9F%E7%94%B5%E5%AD%90%E6%8A%80%E6%9C%AF%EF%BC%88%E6%A8%A1%E7%94%B5%EF%BC%89/" style="font-size: 1.05rem;">模拟电子技术（模电）<sup>1</sup></a><a href="/tags/%E6%A8%A1%E7%94%B5/" style="font-size: 1.05rem;">模电<sup>1</sup></a><a href="/tags/%E7%A7%91%E7%9B%AE%E4%B8%89/" style="font-size: 1.05rem;">科目三<sup>1</sup></a><a href="/tags/%E7%B3%BB%E7%BB%9F/" style="font-size: 1.05rem;">系统<sup>1</sup></a><a href="/tags/%E7%BB%83%E8%BD%A6/" style="font-size: 1.05rem;">练车<sup>1</sup></a><a href="/tags/%E8%8A%82%E6%B0%94/" style="font-size: 1.05rem;">节气<sup>1</sup></a><a href="/tags/%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/" style="font-size: 1.05rem;">课堂笔记<sup>4</sup></a><a href="/tags/%E9%92%A2%E7%90%B4%F0%9F%8E%B9/" style="font-size: 1.05rem;">钢琴🎹<sup>1</sup></a></div></div><hr/></div></div><div class="console-card history"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-box-archiv"></i><span>文章</span></div><div class="card-archives"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-archive"></i><span>归档</span><a class="card-more-btn" href="/archives/" title="查看更多">
+    <i class="anzhiyufont anzhiyu-icon-angle-right"></i></a></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/12/"><span class="card-archive-list-date">十二月 2025</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/04/"><span class="card-archive-list-date">四月 2025</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">2</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/12/"><span class="card-archive-list-date">十二月 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">8</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/10/"><span class="card-archive-list-date">十月 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/07/"><span class="card-archive-list-date">七月 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">12</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/06/"><span class="card-archive-list-date">六月 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">6</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/05/"><span class="card-archive-list-date">五月 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/03/"><span class="card-archive-list-date">三月 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">4</span><span>篇</span></div></a></li></ul></div><hr/></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" title="显示模式切换" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-moon"></i></a></div><div class="console-btn-item" id="consoleHideAside" onclick="anzhiyu.hideAsideBtn()" title="边栏显示控制"><a class="asideSwitch"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></a></div><div class="console-btn-item" id="consoleMusic" onclick="anzhiyu.musicToggle()" title="音乐开关"><a class="music-switch"><i class="anzhiyufont anzhiyu-icon-music"></i></a></div><div class="console-btn-item" id="consoleKeyboard" onclick="anzhiyu.keyboardToggle()" title="快捷键开关"><a class="keyboard-switch"><i class="anzhiyufont anzhiyu-icon-keyboard"></i></a></div></div><div class="console-mask" onclick="anzhiyu.hideConsole()" href="javascript:void(0);"></div></div><div class="nav-button" id="nav-totop"><a class="totopbtn" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i><span id="percent" onclick="anzhiyu.scrollToDest(0,500)">0</span></a></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);" title="切换"><i class="anzhiyufont anzhiyu-icon-bars"></i></a></div></div></div></nav><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original">原创</a><span class="article-meta tags"><a class="article-meta__tags" href="/tags/eNSP/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>eNSP</span></a></span></div></div><h1 class="post-title" itemprop="name headline">OSPF基础与路由计算</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="anzhiyufont anzhiyu-icon-calendar-days post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" itemprop="dateCreated datePublished" datetime="2024-12-18T08:12:22.000Z" title="发表于 2024-12-18 16:12:22">2024-12-18</time><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-history post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" itemprop="dateCreated datePublished" datetime="2024-12-18T11:52:46.000Z" title="更新于 2024-12-18 19:52:46">2024-12-18</time></span></div><div class="meta-secondline"><span class="post-meta-separator"></span><span class="post-meta-wordcount"><i class="anzhiyufont anzhiyu-icon-file-word post-meta-icon" title="文章字数"></i><span class="post-meta-label" title="文章字数">字数总计:</span><span class="word-count" title="文章字数">3.2k</span><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-clock post-meta-icon" title="阅读时长"></i><span class="post-meta-label" title="阅读时长">阅读时长:</span><span>11分钟</span></span><span class="post-meta-separator"></span><span class="post-meta-pv-cv" id="" data-flag-title="OSPF基础与路由计算"><i class="anzhiyufont anzhiyu-icon-fw-eye post-meta-icon"></i><span class="post-meta-label" title="阅读量">阅读量:</span><span id="busuanzi_value_page_pv"><i class="anzhiyufont anzhiyu-icon-spinner anzhiyu-spin"></i></span></span><span class="post-meta-separator">       </span><span class="post-meta-position" title="作者IP属地为乐都"><i class="anzhiyufont anzhiyu-icon-location-dot"></i>乐都</span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section><div id="post-top-cover"><img class="nolazyload" id="post-top-bg" src="https://s2.loli.net/2023/06/26/3rP6MoJsianfXLI.png"></div></header><main id="blog-container"><div class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container" itemscope itemtype="http://maojin08796.github.io/2024/12/18/12.18/"><header><a href="/tags/eNSP/" tabindex="-1" itemprop="url">eNSP</a><h1 id="CrawlerTitle" itemprop="name headline">OSPF基础与路由计算</h1><span itemprop="author" itemscope itemtype="http://schema.org/Person">樂乐</span><time itemprop="dateCreated datePublished" datetime="2024-12-18T08:12:22.000Z" title="发表于 2024-12-18 16:12:22">2024-12-18</time><time itemprop="dateCreated datePublished" datetime="2024-12-18T11:52:46.000Z" title="更新于 2024-12-18 19:52:46">2024-12-18</time></header><h1 id="OSPF基础与路由计算"><a href="#OSPF基础与路由计算" class="headerlink" title="OSPF基础与路由计算"></a>OSPF基础与路由计算</h1><h2 id="OSPF基础"><a href="#OSPF基础" class="headerlink" title="OSPF基础"></a><strong>OSPF基础</strong></h2><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a><strong>前言</strong></h3><ul>
+<li><strong>路由表生成</strong>：路由器根据路由表转发数据包，路由表项可通过手动配置和动态路由协议生成。</li>
+<li><strong>静态路由</strong>：使用较少的带宽，不占用CPU资源，但网络故障或拓扑变化后需手动重新配置。</li>
+<li><strong>动态路由协议</strong>：具有更强的可扩展性和应变能力，OSPF作为优秀的内部网关协议被广泛使用。</li>
+</ul>
+<h3 id="目标"><a href="#目标" class="headerlink" title="目标"></a><strong>目标</strong></h3><ul>
+<li>描述OSPF路由计算的整体过程</li>
+<li>阐明DR与BDR的作用</li>
+<li>描述OSPF报文类型和作用</li>
+<li>实现OSPF的基本配置</li>
+<li>区分OSPF邻居关系和邻接关系</li>
+</ul>
+<h3 id="动态路由协议简介"><a href="#动态路由协议简介" class="headerlink" title="动态路由协议简介"></a><strong>动态路由协议简介</strong></h3><ul>
+<li><strong>IGP（内部网关协议）</strong>：RIP、OSPF、IS-IS</li>
+<li><strong>EGP（外部网关协议）</strong>：BGP</li>
+<li><strong>工作机制及算法分类</strong>：<ul>
+<li>距离矢量路由协议：RIP</li>
+<li>链路状态路由协议：OSPF、IS-IS</li>
+</ul>
+</li>
+</ul>
+<h3 id="链路状态路由协议"><a href="#链路状态路由协议" class="headerlink" title="链路状态路由协议"></a><strong>链路状态路由协议</strong></h3><ul>
+<li><strong>LSA泛洪</strong>：路由器之间建立邻居关系，交互LSA（链路状态通告）。</li>
+<li><strong>LSDB维护</strong>：路由器存储LSA到LSDB（链路状态数据库），通过解析LSDB了解全网拓扑。</li>
+<li><strong>SPF计算</strong>：基于LSDB，使用SPF算法计算无环最短路径树。</li>
+<li><strong>路由表生成</strong>：将计算出的优选路径加载到路由表。</li>
+</ul>
+<h3 id="OSPF概述"><a href="#OSPF概述" class="headerlink" title="OSPF概述"></a><strong>OSPF概述</strong></h3><ul>
+<li><strong>定义</strong>：IETF定义的基于链路状态的内部网关路由协议。</li>
+<li><strong>版本</strong>：OSPFv2（IPv4），OSPFv3（IPv6）。</li>
+<li><strong>优点</strong>：基于SPF算法，支持组播、区域划分、等价路由负载分担、报文认证。</li>
+</ul>
+<h3 id="OSPF应用场景"><a href="#OSPF应用场景" class="headerlink" title="OSPF应用场景"></a><strong>OSPF应用场景</strong></h3><ul>
+<li><strong>大型企业网络</strong>：核心和汇聚层部署在OSPF骨干区域，接入和汇聚层部署在非骨干区域。</li>
+</ul>
+<h3 id="OSPF基础术语"><a href="#OSPF基础术语" class="headerlink" title="OSPF基础术语"></a><strong>OSPF基础术语</strong></h3><ul>
+<li><strong>Router ID</strong>：在自治系统中唯一标识一台运行OSPF的路由器。 </li>
+<li><strong>区域</strong>：逻辑上划分设备组，用区域号（Area ID）标识。</li>
+<li><strong>度量值</strong>：OSPF使用Cost作为路由度量值，接口Cost值可配置。</li>
+</ul>
+<h3 id="OSPF三大表项"><a href="#OSPF三大表项" class="headerlink" title="OSPF三大表项"></a><strong>OSPF三大表项</strong></h3><ul>
+<li><strong>邻居表</strong>：显示OSPF路由器之间的邻居状态，通过<code>display ospf peer</code>查看。</li>
+<li><strong>LSDB</strong>：保存自己产生及从邻居收到的LSA信息，通过<code>display ospf lsdb</code>查看。</li>
+<li><strong>OSPF路由表</strong>：包含目的地、Cost、下一跳等信息，通过<code>display ospf routing</code>查看。</li>
+</ul>
+<h3 id="OSPF报文格式和类型"><a href="#OSPF报文格式和类型" class="headerlink" title="OSPF报文格式和类型"></a><strong>OSPF报文格式和类型</strong></h3><ul>
+<li><strong>报文类型</strong>：Hello、Database Description（DD）、Link State Request（LSR）、Link State Update（LSU）、Link State Acknowledgment（LSAck）。</li>
+<li><strong>协议号</strong>：89。</li>
+</ul>
+<h3 id="OSPF工作过程概览"><a href="#OSPF工作过程概览" class="headerlink" title="OSPF工作过程概览"></a><strong>OSPF工作过程概览</strong></h3><ol>
+<li><strong>发现邻居</strong>：通过Hello报文发现直连链路上的邻居。</li>
+<li><strong>建立邻居关系</strong>：协商主&#x2F;从关系，交换DD报文。</li>
+<li><strong>建立邻接关系</strong>：同步LSDB，加载路由信息。</li>
+<li><strong>计算路由</strong>：基于LSDB使用SPF算法计算路由。</li>
+</ol>
+<h3 id="建立邻居关系"><a href="#建立邻居关系" class="headerlink" title="建立邻居关系"></a><strong>建立邻居关系</strong></h3><ul>
+<li><strong>Hello报文</strong>：包含Router ID、邻居列表等信息，用于邻居发现、建立和保持。</li>
+</ul>
+<h3 id="建立邻接关系"><a href="#建立邻接关系" class="headerlink" title="建立邻接关系"></a><strong>建立邻接关系</strong></h3><ul>
+<li><strong>DD报文</strong>：包含LSA头部信息，用于摘要信息交换。</li>
+<li><strong>LSR、LSU、LSAck报文</strong>：用于请求、更新和确认LSA。</li>
+</ul>
+<h3 id="DR与BDR的作用"><a href="#DR与BDR的作用" class="headerlink" title="DR与BDR的作用"></a><strong>DR与BDR的作用</strong></h3><ul>
+<li><strong>DR（指定路由器）</strong>：负责在MA网络建立和维护邻接关系，同步LSA。</li>
+<li><strong>BDR（备份指定路由器）</strong>：在DR失效时接管DR的工作。</li>
+<li><strong>选举规则</strong>：基于接口DR优先级和Router ID。</li>
+</ul>
+<h3 id="配置命令介绍"><a href="#配置命令介绍" class="headerlink" title="配置命令介绍"></a><strong>配置命令介绍</strong></h3><ul>
+<li>启动OSPF进程：<code>[Huawei] ospf [process-id | Router ID Router ID]</code></li>
+<li>创建并进入OSPF区域视图：<code>[Huawei-ospf-1] area area-id</code></li>
+<li>在区域中使能OSPF：<code>[Huawei-ospf-1-area-0.0.0.0] network network-address wildcard-mask</code></li>
+<li>接口视图下使能OSPF：<code>[Huawei-GigabitEthernet1/0/0] ospf enable process-id area area-id</code></li>
+</ul>
+<h3 id="配置验证"><a href="#配置验证" class="headerlink" title="配置验证"></a><strong>配置验证</strong></h3><ul>
+<li><strong>查看接口信息</strong>：<code>display ospf interface all</code></li>
+<li><strong>查看邻居状态</strong>：<code>display ospf peer</code></li>
+<li><strong>查看LSDB</strong>：<code>display ospf lsdb</code></li>
+<li><strong>查看OSPF路由表</strong>：<code>display ospf routing</code></li>
+</ul>
+<h3 id="思考题"><a href="#思考题" class="headerlink" title="思考题"></a><strong>思考题</strong></h3><ul>
+<li>OSPF使用哪种报文维护邻居关系？Hello</li>
+<li>OSPF支持哪些网络类型？P2P、P2MP、广播、NBMA</li>
+</ul>
+<h2 id="OSPF路由计算"><a href="#OSPF路由计算" class="headerlink" title="OSPF路由计算"></a><strong>OSPF路由计算</strong></h2><h3 id="前言-1"><a href="#前言-1" class="headerlink" title="前言"></a><strong>前言</strong></h3><ul>
+<li><strong>区域划分</strong>：缓解路由器压力，支持外部路由引入。</li>
+<li><strong>课程目标</strong>：解释LSA关键字段、描述LSA类型及功能、阐明SPF算法、描述路由计算原理。</li>
+</ul>
+<h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a><strong>目录</strong></h3><ul>
+<li>区域内路由计算</li>
+<li>LSA概述</li>
+<li>Router-LSA</li>
+<li>Network-LSA</li>
+<li>SPF计算过程</li>
+<li>区域间路由计算</li>
+<li>外部路由计算</li>
+</ul>
+<h3 id="LSA基本概念"><a href="#LSA基本概念" class="headerlink" title="LSA基本概念"></a><strong>LSA基本概念</strong></h3><ul>
+<li><strong>重要字段</strong>：<ul>
+<li>LS Age：LSA生存时间</li>
+<li>Options：OSPF支持的特性</li>
+<li>LS Type：LSA类型</li>
+<li>Link State ID：链路状态ID</li>
+<li>Advertising Router：产生LSA的路由器Router ID</li>
+<li>LS Sequence Number：链路状态序列号</li>
+<li>LS Checksum：校验和</li>
+<li>Length：LSA总长度</li>
+</ul>
+</li>
+</ul>
+<h3 id="常见LSA类型"><a href="#常见LSA类型" class="headerlink" title="常见LSA类型"></a><strong>常见LSA类型</strong></h3><ul>
+<li><strong>Router-LSA</strong>：描述路由器直连接口信息。</li>
+<li><strong>Network-LSA</strong>：由DR产生，描述MA网络链路状态。</li>
+<li><strong>Network Summary LSA</strong>：由ABR产生，描述区域间路由。</li>
+<li><strong>ASBR-Summary LSA</strong>：由ABR产生，描述到ASBR的路由。 </li>
+<li><strong>AS-external LSA</strong>：由ASBR产生，描述外部路由。</li>
+</ul>
+<h3 id="Router-LSA详解"><a href="#Router-LSA详解" class="headerlink" title="Router-LSA详解"></a>Router-<strong>LSA详解</strong></h3><ul>
+<li><strong>包含信息</strong>：直连接口的链路类型、链路ID、链路数据、度量值。</li>
+<li><strong>链路类型</strong>：P2P、TransNet、StubNet。</li>
+</ul>
+<h3 id="Network-LSA详解"><a href="#Network-LSA详解" class="headerlink" title="Network-LSA详解"></a><strong>Network-LSA详解</strong></h3><ul>
+<li><strong>包含信息</strong>：DR接口IP地址、MA网络子网掩码、接入MA网络的路由器Router ID。</li>
+</ul>
+<h3 id="SPF算法"><a href="#SPF算法" class="headerlink" title="SPF算法"></a><strong>SPF算法</strong></h3><ul>
+<li><strong>Phase 1</strong>：构建SPF树，根据Router-LSA和Network-LSA中的拓扑信息，依次添加Cost值最小的路由器。</li>
+<li><strong>Phase 2</strong>：计算最优路由，将路由信息以叶子节点形式附加在SPF树上。</li>
+</ul>
+<h3 id="区域间路由计算"><a href="#区域间路由计算" class="headerlink" title="区域间路由计算"></a><strong>区域间路由计算</strong></h3><ul>
+<li><strong>信息传递</strong>：通过ABR产生的Network Summary LSA实现。</li>
+<li><strong>防环机制</strong>：<ul>
+<li>所有非骨干区域必须与Area 0直接相连。 </li>
+<li>ABR不会将到达某个区域内网段的3类LSA再注入回该区域。</li>
+<li>ABR从非骨干区域收到的3类LSA不能用于区域间路由计算。</li>
+</ul>
+</li>
+</ul>
+<h3 id="虚连接的作用及配置"><a href="#虚连接的作用及配置" class="headerlink" title="虚连接的作用及配置"></a><strong>虚连接的作用及配置</strong></h3><ul>
+<li><strong>作用</strong>：使骨干区域在逻辑上连续，不要求物理上连续。</li>
+<li><strong>配置</strong>：在ABR上配置虚连接，指定对端ABR的Router ID。</li>
+</ul>
+<h3 id="外部路由计算"><a href="#外部路由计算" class="headerlink" title="外部路由计算"></a><strong>外部路由计算</strong></h3><ul>
+<li><strong>ASBR</strong>：引入外部路由的路由器。</li>
+<li><strong>AS-external LSA</strong>：描述外部路由，通告到所有区域（除Stub和NSSA区域）。</li>
+<li><strong>ASBR-Summary LSA</strong>：由ABR产生，描述到ASBR的路由。</li>
+<li><strong>度量值类型</strong>：</li>
+<li>Metric-Type-1：内部开销+外部开销。</li>
+<li>Metric-Type-2：仅外部开销。</li>
+</ul>
+<h3 id="思考题-1"><a href="#思考题-1" class="headerlink" title="思考题"></a><strong>思考题</strong></h3><ul>
+<li>Router-LSA中主要包含哪几种链路类型？P2P、TransNet、StubNet</li>
+<li>经过SPF算法计算后，最优的OSPF路由一定会被放入路由器的路由表吗？是</li>
+</ul>
+<h3 id="本章总结"><a href="#本章总结" class="headerlink" title="本章总结"></a><strong>本章总结</strong></h3><ul>
+<li>OSPF区域内路由、区域间路由、外部路由的计算原理。</li>
+<li>LSA类型和SPF算法的作用。</li>
+<li>区域划分和虚连接在OSPF中的应用。</li>
+</ul>
+<h1 id="OSPF特殊区域及其他特性"><a href="#OSPF特殊区域及其他特性" class="headerlink" title="OSPF特殊区域及其他特性"></a><strong>OSPF特殊区域及其他特性</strong></h1><h2 id="前言-2"><a href="#前言-2" class="headerlink" title="前言"></a><strong>前言</strong></h2><ul>
+<li><strong>问题背景</strong>：大型网络中，OSPF路由器需维护域内、域间、外部路由的数据库。网络规模扩大时，LSDB（链路状态数据库）规模增长，导致设备性能浪费。</li>
+<li><strong>解决方案</strong>：通过OSPF特殊区域特性减少LSA数量和路由表规模。</li>
+</ul>
+<h2 id="目标-1"><a href="#目标-1" class="headerlink" title="目标"></a><strong>目标</strong></h2><ul>
+<li>描述OSPF特殊区域类型及相关特征</li>
+<li>阐明OSPF路由汇总的应用场景及功能优势</li>
+<li>实现OSPF报文认证的配置</li>
+</ul>
+<h2 id="目录-1"><a href="#目录-1" class="headerlink" title="目录"></a><strong>目录</strong></h2><ol>
+<li>Stub区域和Totally Stub区域</li>
+<li>NSSA区域和Totally NSSA区域</li>
+<li>区域间路由汇总和外部路由汇总</li>
+<li>OSPF协议特性</li>
+</ol>
+<h3 id="Stub区域"><a href="#Stub区域" class="headerlink" title="Stub区域"></a><strong>Stub区域</strong></h3><ul>
+<li><strong>定义</strong>：Stub区域的ABR不向Stub区域内传播AS外部路由，Stub区域内路由器通过ABR生成的缺省路由到达AS外部。</li>
+<li><strong>配置要点</strong>：<ul>
+<li>骨干区域不能被配置为Stub区域。</li>
+<li>Stub区域中的所有路由器都必须将该区域配置为Stub。</li>
+<li>Stub区域内不能引入也不接收AS外部路由。</li>
+<li>虚连接不能穿越Stub区域。</li>
+</ul>
+</li>
+</ul>
+<h3 id="Totally-Stub区域"><a href="#Totally-Stub区域" class="headerlink" title="Totally Stub区域"></a><strong>Totally Stub区域</strong></h3><ul>
+<li><strong>定义</strong>：既不允许AS外部路由，也不允许区域间路由在本区域内传播。Totally Stub区域内的路由器通过ABR下发的缺省路由到达其他区域及AS外部。</li>
+<li><strong>配置要点</strong>：在ABR上需要追加<code>no-summary</code>关键字。</li>
+</ul>
+<h3 id="NSSA区域"><a href="#NSSA区域" class="headerlink" title="NSSA区域"></a><strong>NSSA区域</strong></h3><ul>
+<li><strong>定义</strong>：能够引入外部路由，同时又不会学习来自OSPF网络其它区域引入的外部路由。</li>
+<li><strong>配置要点</strong>：NSSA区域的ASBR产生7类LSA，ABR将7类LSA转化为5类LSA并注入到骨干区域。</li>
+</ul>
+<h3 id="Totally-NSSA区域"><a href="#Totally-NSSA区域" class="headerlink" title="Totally NSSA区域"></a><strong>Totally NSSA区域</strong></h3><ul>
+<li><strong>定义</strong>：与NSSA区域的配置区别在于，在ABR上需要追加<code>no-summary</code>关键字。</li>
+</ul>
+<h3 id="区域间路由汇总"><a href="#区域间路由汇总" class="headerlink" title="区域间路由汇总"></a><strong>区域间路由汇总</strong></h3><ul>
+<li><strong>定义</strong>：在ABR上对区域间的路由执行路由汇总，减小路由表规模。</li>
+<li><strong>配置命令</strong>：<code>[R2-ospf-1-area-0.0.0.1]abr-summary 172.16.0.0 255.255.248.0</code></li>
+</ul>
+<h3 id="外部路由汇总"><a href="#外部路由汇总" class="headerlink" title="外部路由汇总"></a><strong>外部路由汇总</strong></h3><ul>
+<li><strong>定义</strong>：在ASBR上对引入的外部路由执行路由汇总。</li>
+<li><strong>配置命令</strong>：<code>[R5]ospf 1 asbr-summary 172.18.0.0 255.255.248.0</code></li>
+</ul>
+<h3 id="Silent-Interface"><a href="#Silent-Interface" class="headerlink" title="Silent-Interface"></a><strong>Silent-Interface</strong></h3><ul>
+<li><strong>定义</strong>：Silent-Interface不会接收和发送OSPF报文，但其直连路由仍可以发布。</li>
+<li><strong>配置命令</strong>：<code>[R1-ospf-1]silent-interface GigabitEthernet 0/0/1</code></li>
+</ul>
+<h3 id="OSPF报文认证"><a href="#OSPF报文认证" class="headerlink" title="OSPF报文认证"></a><strong>OSPF报文认证</strong></h3><ul>
+<li><strong>支持方式</strong>：区域认证、接口认证</li>
+<li><strong>配置命令</strong>：<ul>
+<li>区域认证：<code>[R2-ospf-1-area-0.0.0.0]authentication-mode simple cipher Huawei</code></li>
+<li>接口认证：<code>[R2-GigabitEthernet0/0/1]ospf authentication-mode md5 1 cipher Huawei</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="思考题-2"><a href="#思考题-2" class="headerlink" title="思考题"></a><strong>思考题</strong></h2><ul>
+<li><strong>多选题</strong>：OSPF定义了哪些特殊区域？<ul>
+<li>Stub Area</li>
+<li>Totally Stub Area</li>
+<li>Not-So-Stubby Area（NSSA)</li>
+<li>Totally NSSA</li>
+</ul>
+</li>
+<li><strong>简答题</strong>：<ul>
+<li>Stub区域与Totally Stub区域的主要差别是什么？</li>
+<li>区域间路由汇总功能在什么路由器上配置？</li>
+</ul>
+</li>
+</ul>
+<h2 id="本章总结-1"><a href="#本章总结-1" class="headerlink" title="本章总结"></a><strong>本章总结</strong></h2><ul>
+<li>介绍了OSPF特殊区域（Stub、Totally Stub、NSSA、Totally NSSA）及其配置要点。</li>
+<li>阐述了OSPF路由汇总（区域间、外部）的应用场景和配置方法。</li>
+<li>讲解了OSPF协议特性，包括Silent-Interface和报文认证。</li>
+</ul>
+<hr>
+<h1 id="IS-IS原理与配置"><a href="#IS-IS原理与配置" class="headerlink" title="IS-IS原理与配置"></a><strong>IS-IS原理与配置</strong></h1><h2 id="前言-3"><a href="#前言-3" class="headerlink" title="前言"></a><strong>前言</strong></h2><ul>
+<li><strong>IS-IS定义</strong>：ISO为CLNP设计的动态路由协议，后由IETF扩展以支持IP路由，称为集成IS-IS。</li>
+<li><strong>课程目标</strong>：描述IS-IS的基本概念、工作原理及配置方法。</li>
+</ul>
+<h2 id="目标-2"><a href="#目标-2" class="headerlink" title="目标"></a><strong>目标</strong></h2><ul>
+<li>描述IS-IS的基本概念</li>
+<li>描述IS-IS的工作原理</li>
+<li>描述IS-IS与OSPF的差异</li>
+<li>实现IS-IS的常用配置</li>
+</ul>
+<h2 id="目录-2"><a href="#目录-2" class="headerlink" title="目录"></a><strong>目录</strong></h2><ol>
+<li>IS-IS的基本概念</li>
+<li>IS-IS工作原理</li>
+<li>IS-IS的基本配置</li>
+</ol>
+<h3 id="IS-IS概述"><a href="#IS-IS概述" class="headerlink" title="IS-IS概述"></a><strong>IS-IS概述</strong></h3><ul>
+<li><strong>特点</strong>：支持CLNP和IP网络，采用数据链路层封装。</li>
+<li><strong>与OSPF的区别</strong>：OSPF只支持IP网络，采用IP报文封装。</li>
+</ul>
+<h3 id="NSAP"><a href="#NSAP" class="headerlink" title="NSAP"></a><strong>NSAP</strong></h3><ul>
+<li><strong>定义</strong>：网络服务访问点，OSI协议栈中用于定位资源的地址。</li>
+<li><strong>组成</strong>：IDP（初始域部分）和DSP（域特定部分）。</li>
+</ul>
+<h3 id="NET"><a href="#NET" class="headerlink" title="NET"></a><strong>NET</strong></h3><ul>
+<li><strong>定义</strong>：网络实体名称，设备的网络层信息，用于路由计算。</li>
+<li><strong>组成</strong>：区域地址（Area ID）和System ID。</li>
+</ul>
+<h3 id="IS-IS区域划分"><a href="#IS-IS区域划分" class="headerlink" title="IS-IS区域划分"></a><strong>IS-IS区域划分</strong></h3><ul>
+<li><strong>层次结构</strong>：Level-1、Level-2、Level-1-2。</li>
+<li><strong>骨干区域</strong>：由Level-2和Level-1-2路由器组成。</li>
+</ul>
+<h3 id="IS-IS路由器分类"><a href="#IS-IS路由器分类" class="headerlink" title="IS-IS路由器分类"></a><strong>IS-IS路由器分类</strong></h3><ul>
+<li><strong>Level-1路由器</strong>：只与同一区域的Level-1和Level-1-2路由器形成邻接关系。</li>
+<li><strong>Level-2路由器</strong>：与同一或不同区域的Level-2或Level-1-2路由器形成邻接关系。</li>
+<li><strong>Level-1-2路由器</strong>：同时维护Level-1和Level-2的LSDB。</li>
+</ul>
+<h3 id="IS-IS支持的网络类型"><a href="#IS-IS支持的网络类型" class="headerlink" title="IS-IS支持的网络类型"></a><strong>IS-IS支持的网络类型</strong></h3><ul>
+<li><strong>广播网络</strong>：如Ethernet。</li>
+<li><strong>点到点网络</strong>：如PPP、HDLC。</li>
+</ul>
+<h3 id="IS-IS开销值"><a href="#IS-IS开销值" class="headerlink" title="IS-IS开销值"></a><strong>IS-IS开销值</strong></h3><ul>
+<li><strong>定义</strong>：路由度量值，Cost值越小路径越优。</li>
+<li><strong>确定方式</strong>：接口开销、全局开销、自动计算开销。</li>
+</ul>
+<h3 id="IS-IS报文格式"><a href="#IS-IS报文格式" class="headerlink" title="IS-IS报文格式"></a><strong>IS-IS报文格式</strong></h3><ul>
+<li><strong>PDU类型</strong>：IIH、LSP、CSNP、PSNP。</li>
+<li><strong>通用头部字段</strong>：协议鉴别符、长度指示器、版本&#x2F;协议标识扩展等。</li>
+</ul>
+<h3 id="IS-IS邻接关系建立"><a href="#IS-IS邻接关系建立" class="headerlink" title="IS-IS邻接关系建立"></a><strong>IS-IS邻接关系建立</strong></h3><ul>
+<li><strong>建立原则</strong>：同一层次、相同Area ID、一致的网络类型、相同的IP网段。</li>
+<li><strong>广播网络</strong>：三次握手建立邻接关系，选举DIS。</li>
+<li><strong>点到点网络</strong>：两次握手建立邻接关系，华为设备默认使用三次握手。</li>
+</ul>
+<h3 id="LSP"><a href="#LSP" class="headerlink" title="LSP"></a><strong>LSP</strong></h3><ul>
+<li><strong>定义</strong>：链路状态报文，用于交换链路状态信息。</li>
+<li><strong>类型</strong>：Level-1 LSP、Level-2 LSP。</li>
+<li><strong>字段</strong>：剩余生存时间、LSP ID、序列号、校验和等。</li>
+</ul>
+<h3 id="LSDB同步"><a href="#LSDB同步" class="headerlink" title="LSDB同步"></a><strong>LSDB同步</strong></h3><ul>
+<li><strong>CSNP</strong>：包含LSDB中所有LSP摘要，用于判断是否需要同步LSDB。</li>
+<li><strong>PSNP</strong>：包含部分LSP摘要信息，用于请求邻居发送新的LSP。</li>
+</ul>
+<h3 id="路由计算"><a href="#路由计算" class="headerlink" title="路由计算"></a><strong>路由计算</strong></h3><ul>
+<li><strong>Level-1路由器</strong>：根据Level-1 LSP计算区域内路由。</li>
+<li><strong>Level-1-2路由器</strong>：维护Level-1和Level-2 LSDB，计算区域内和区域间路由。</li>
+<li><strong>Level-2路由器</strong>：根据Level-2 LSP计算全网路由。</li>
+</ul>
+<h3 id="IS-IS协议的基本配置"><a href="#IS-IS协议的基本配置" class="headerlink" title="IS-IS协议的基本配置"></a><strong>IS-IS协议的基本配置</strong></h3><ul>
+<li><strong>创建IS-IS进程</strong>：<code>[Huawei] isis [process-id]</code></li>
+<li><strong>配置NET</strong>：<code>[Huawei-isis-1] network-entity net</code></li>
+<li><strong>配置接口Level级别</strong>：<code>[Huawei-GigabitEthernet0/0/1] isis circuit-level [level-1 | level-1-2 | level-2]</code></li>
+<li><strong>设置接口网络类型</strong>：<code>[Huawei-GigabitEthernet0/0/1] isis circuit-type p2p</code></li>
+</ul>
+<h3 id="路由渗透"><a href="#路由渗透" class="headerlink" title="路由渗透"></a><strong>路由渗透</strong></h3><ul>
+<li><strong>定义</strong>：将区域间路由通过Level-1-2路由器传递到Level-1区域。</li>
+<li><strong>配置命令</strong>：<code>[R2-isis-1] import-route isis level-2 into level-1 filter-policy ip-prefix 1</code></li>
+</ul>
+<h3 id="IS-IS认证"><a href="#IS-IS认证" class="headerlink" title="IS-IS认证"></a><strong>IS-IS认证</strong></h3><ul>
+<li><strong>类型</strong>：接口认证、区域认证、路由域认证。</li>
+<li><strong>认证方式</strong>：简单认证、MD5认证、Keychain认证、HMAC-SHA256认证。</li>
+<li><strong>配置命令</strong>：<ul>
+<li>接口认证：<code>[Huawei-GigabitEthernet0/0/0] isis authentication-mode [keychain | md5 | simple] [level-1 | level-2] [ip | osi] [send-only]</code></li>
+<li>区域认证：&#96;[Huawei-isis-1] area-authentication-mode</li>
+</ul>
+</li>
+</ul>
+</article><div class="post-copyright"><div class="copyright-cc-box"><i class="anzhiyufont anzhiyu-icon-copyright"></i></div><div class="post-copyright__author_box"><a class="post-copyright__author_img" href="/" title="头像"><img class="post-copyright__author_img_back" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://s2.loli.net/2023/06/26/Wox4YqVQzy9RehX.jpg" title="头像" alt="头像"><img class="post-copyright__author_img_front" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://s2.loli.net/2023/06/26/Wox4YqVQzy9RehX.jpg" title="头像" alt="头像"></a><div class="post-copyright__author_name">樂乐</div><div class="post-copyright__author_desc"></div></div><div class="post-copyright__post__info"><a class="post-copyright__original" title="该文章为原创文章，注意版权协议" href="http://maojin08796.github.io/2024/12/18/12.18/">原创</a><a class="post-copyright-title"><span onclick="rm.copyPageUrl('http://maojin08796.github.io/2024/12/18/12.18/')">OSPF基础与路由计算</span></a></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div class="rewardLeftButton"><div class="post-reward" onclick="anzhiyu.addRewardMask()"><div class="reward-button button--animated" title="赞赏作者"><i class="anzhiyufont anzhiyu-icon-hand-heart-fill"></i>打赏作者</div><div class="reward-main"><div class="reward-all"><span class="reward-title">感谢你赐予我前进的力量</span><ul class="reward-group"><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul><a class="reward-main-btn" href="/about/#about-reward" target="_blank"><div class="reward-text">赞赏者名单</div><div class="reward-dec">因为你们的支持让我意识到写文章的价值🙏</div></a></div></div></div><div id="quit-box" onclick="anzhiyu.removeRewardMask()" style="display: none"></div><div class="reward-link mode"><a class="reward-link-button" href="/wechat/"><i class="anzhiyufont anzhiyu-icon-plant-fill"></i>运营模式与责任</a></div></div><div class="shareRight"><div class="share-link mobile"><div class="share-qrcode"><div class="share-button" title="使用手机访问这篇文章"><i class="anzhiyufont anzhiyu-icon-qrcode"></i></div><div class="share-main"><div class="share-main-all"><div id="qrcode" title="http://maojin08796.github.io/2024/12/18/12.18/"></div><div class="reward-dec">使用手机访问这篇文章</div></div></div></div></div><div class="share-link weibo"><a class="share-button" target="_blank" href="https://service.weibo.com/share/share.php?title=OSPF基础与路由计算&amp;url=http://maojin08796.github.io/2024/12/18/12.18/&amp;pic=https://s2.loli.net/2023/06/26/3rP6MoJsianfXLI.png" rel="external nofollow noreferrer noopener"><i class="anzhiyufont anzhiyu-icon-weibo"></i></a></div><script>function copyCurrentPageUrl() {
+  var currentPageUrl = window.location.href;
+  var input = document.createElement("input");
+  input.setAttribute("value", currentPageUrl);
+  document.body.appendChild(input);
+  input.select();
+  input.setSelectionRange(0, 99999);
+  document.execCommand("copy");
+  document.body.removeChild(input);
+}</script><div class="share-link copyurl"><div class="share-button" id="post-share-url" title="复制链接" onclick="copyCurrentPageUrl()"><i class="anzhiyufont anzhiyu-icon-link"></i></div></div></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://maojin08796.github.io" target="_blank">樂乐の博客</a>！</span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__box"><div class="post-meta__box__tag-list"><a class="post-meta__box__tags" href="/tags/eNSP/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>eNSP<span class="tagsPageCount">20</span></a></div></div></div><div class="post_share"><div class="social-share" data-image="https://file.crazywong.com/gh/jerryc127/CDN@latest/cover/default_bg2.png?_r_=30404d0c-eba2-684f-aaa2-494bea2292d1" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"/><script src="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer="defer"></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/12/17/12.17/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://s2.loli.net/2023/06/26/f2knxLCUB9yFQXr.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">以太网交换基础和VLAN原理配置</div></div></a></div><div class="next-post pull-right"><a href="/2024/12/19/12.19/"><img class="next-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://s2.loli.net/2023/06/26/f2knxLCUB9yFQXr.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">以太网链路聚合和DHCP</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="anzhiyufont anzhiyu-icon-thumbs-up fa-fw" style="font-size: 1.5rem; margin-right: 4px"></i><span>喜欢这篇文章的人也看了</span></div><div class="relatedPosts-list"><div><a href="/2024/06/18/06.18/" title="618"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://s2.loli.net/2023/06/26/f2knxLCUB9yFQXr.png" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2024-06-18</div><div class="title">618</div></div></a></div><div><a href="/2024/06/19/06.19/" title="619"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://s2.loli.net/2023/06/26/f2knxLCUB9yFQXr.png" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2024-06-19</div><div class="title">619</div></div></a></div><div><a href="/2024/06/20/06.20/" title="620"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://s2.loli.net/2023/06/26/f2knxLCUB9yFQXr.png" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2024-06-20</div><div class="title">620</div></div></a></div><div><a href="/2024/06/21/06.21/" title="621"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://s2.loli.net/2023/06/26/f2knxLCUB9yFQXr.png" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2024-06-21</div><div class="title">621</div></div></a></div><div><a href="/2024/07/09/07.09/" title="709"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://s2.loli.net/2023/06/26/f2knxLCUB9yFQXr.png" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2024-07-09</div><div class="title">709</div></div></a></div><div><a href="/2024/07/08/07.08/" title="708"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://s2.loli.net/2023/06/26/f2knxLCUB9yFQXr.png" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2024-07-08</div><div class="title">708</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="anzhiyufont anzhiyu-icon-comments"></i><span> 评论</span></div><div class="comment-randomInfo"><a onclick="anzhiyu.addRandomCommentInfo()" href="javascript:void(0)">匿名评论</a><a href="/privacy" style="margin-left: 4px">隐私政策</a></div><div class="comment-tips" id="comment-tips"><span>✅ 你无需删除空行，直接评论以获取最佳展示效果</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div><div class="comment-barrage"></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="author-info__sayhi" id="author-info__sayhi" onclick="anzhiyu.changeSayHelloText()"></div><div class="author-info-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://s2.loli.net/2023/06/26/Wox4YqVQzy9RehX.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-status"><img class="g-status" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://bu.dusays.com/2023/08/24/64e6ce9c507bb.png" alt="status"/></div></div><div class="author-info__description"><div style="line-height:1.38;margin:0.6rem 0;text-align:justify;color:rgba(255, 255, 255, 0.8);">这有关于<b style="color:#fff">产品、设计、开发</b>相关的问题和看法，还有<b style="color:#fff">文章翻译</b>和<b style="color:#fff">分享</b>。</div><div style="line-height:1.38;margin:0.6rem 0;text-align:justify;color:rgba(255, 255, 255, 0.8);">相信你可以在这里找到对你有用的<b style="color:#fff">知识</b>和<b style="color:#fff">教程</b>。</div></div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/about"><h1 class="author-info__name">樂乐</h1><div class="author-info__desc"></div></a><div class="card-info-social-icons is-center"><a class="social-icon faa-parent animated-hover" href="https://github.com/anzhiyu-c" target="_blank" title="Github"><i class="anzhiyufont anzhiyu-icon-github"></i></a><a class="social-icon faa-parent animated-hover" href="https://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&amp;email=lele0857@outlook.com" target="_blank" title="Email"><i class="anzhiyufont anzhiyu-icon-envelope"></i></a><a class="social-icon faa-parent animated-hover" href="/atom.xml" target="_blank" title="RSS"><i class="anzhiyufont anzhiyu-icon-rss"></i></a><a class="social-icon faa-parent animated-hover" href="https://space.bilibili.com/341232484" target="_blank" title="BiliBili"><i class="anzhiyufont anzhiyu-icon-bilibili"></i></a><a class="social-icon faa-parent animated-hover" href="tencent://Message/?Uin=2324033256&amp;amp;websiteName=local.edu.com:8888=&amp;amp;Menu=yes" target="_blank" title="QQ"><i class="anzhiyufont anzhiyu-icon-qq"></i></a></div></div></div></div><div class="card-widget anzhiyu-right-widget" id="card-wechat" onclick="null"><div id="flip-wrapper"><div id="flip-content"><div class="face" style="background: url(https://bu.dusays.com/2023/01/13/63c02edf44033.png) center center / 100% no-repeat"></div><div class="back face" style="background: url(https://bu.dusays.com/2023/05/13/645fa415e8694.png) center center / 100% no-repeat"></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bars"></i><span>文章目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#OSPF%E5%9F%BA%E7%A1%80%E4%B8%8E%E8%B7%AF%E7%94%B1%E8%AE%A1%E7%AE%97"><span class="toc-number">1.</span> <span class="toc-text">OSPF基础与路由计算</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#OSPF%E5%9F%BA%E7%A1%80"><span class="toc-number">1.1.</span> <span class="toc-text">OSPF基础</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.1.1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%AE%E6%A0%87"><span class="toc-number">1.1.2.</span> <span class="toc-text">目标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E8%B7%AF%E7%94%B1%E5%8D%8F%E8%AE%AE%E7%AE%80%E4%BB%8B"><span class="toc-number">1.1.3.</span> <span class="toc-text">动态路由协议简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%93%BE%E8%B7%AF%E7%8A%B6%E6%80%81%E8%B7%AF%E7%94%B1%E5%8D%8F%E8%AE%AE"><span class="toc-number">1.1.4.</span> <span class="toc-text">链路状态路由协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OSPF%E6%A6%82%E8%BF%B0"><span class="toc-number">1.1.5.</span> <span class="toc-text">OSPF概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OSPF%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">1.1.6.</span> <span class="toc-text">OSPF应用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OSPF%E5%9F%BA%E7%A1%80%E6%9C%AF%E8%AF%AD"><span class="toc-number">1.1.7.</span> <span class="toc-text">OSPF基础术语</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OSPF%E4%B8%89%E5%A4%A7%E8%A1%A8%E9%A1%B9"><span class="toc-number">1.1.8.</span> <span class="toc-text">OSPF三大表项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OSPF%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F%E5%92%8C%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.1.9.</span> <span class="toc-text">OSPF报文格式和类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OSPF%E5%B7%A5%E4%BD%9C%E8%BF%87%E7%A8%8B%E6%A6%82%E8%A7%88"><span class="toc-number">1.1.10.</span> <span class="toc-text">OSPF工作过程概览</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BB%BA%E7%AB%8B%E9%82%BB%E5%B1%85%E5%85%B3%E7%B3%BB"><span class="toc-number">1.1.11.</span> <span class="toc-text">建立邻居关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BB%BA%E7%AB%8B%E9%82%BB%E6%8E%A5%E5%85%B3%E7%B3%BB"><span class="toc-number">1.1.12.</span> <span class="toc-text">建立邻接关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DR%E4%B8%8EBDR%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-number">1.1.13.</span> <span class="toc-text">DR与BDR的作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E5%91%BD%E4%BB%A4%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.1.14.</span> <span class="toc-text">配置命令介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E9%AA%8C%E8%AF%81"><span class="toc-number">1.1.15.</span> <span class="toc-text">配置验证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%9D%E8%80%83%E9%A2%98"><span class="toc-number">1.1.16.</span> <span class="toc-text">思考题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OSPF%E8%B7%AF%E7%94%B1%E8%AE%A1%E7%AE%97"><span class="toc-number">1.2.</span> <span class="toc-text">OSPF路由计算</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E8%A8%80-1"><span class="toc-number">1.2.1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95"><span class="toc-number">1.2.2.</span> <span class="toc-text">目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LSA%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">1.2.3.</span> <span class="toc-text">LSA基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81LSA%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.2.4.</span> <span class="toc-text">常见LSA类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Router-LSA%E8%AF%A6%E8%A7%A3"><span class="toc-number">1.2.5.</span> <span class="toc-text">Router-LSA详解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Network-LSA%E8%AF%A6%E8%A7%A3"><span class="toc-number">1.2.6.</span> <span class="toc-text">Network-LSA详解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SPF%E7%AE%97%E6%B3%95"><span class="toc-number">1.2.7.</span> <span class="toc-text">SPF算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8C%BA%E5%9F%9F%E9%97%B4%E8%B7%AF%E7%94%B1%E8%AE%A1%E7%AE%97"><span class="toc-number">1.2.8.</span> <span class="toc-text">区域间路由计算</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%99%9A%E8%BF%9E%E6%8E%A5%E7%9A%84%E4%BD%9C%E7%94%A8%E5%8F%8A%E9%85%8D%E7%BD%AE"><span class="toc-number">1.2.9.</span> <span class="toc-text">虚连接的作用及配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%96%E9%83%A8%E8%B7%AF%E7%94%B1%E8%AE%A1%E7%AE%97"><span class="toc-number">1.2.10.</span> <span class="toc-text">外部路由计算</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%9D%E8%80%83%E9%A2%98-1"><span class="toc-number">1.2.11.</span> <span class="toc-text">思考题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AC%E7%AB%A0%E6%80%BB%E7%BB%93"><span class="toc-number">1.2.12.</span> <span class="toc-text">本章总结</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#OSPF%E7%89%B9%E6%AE%8A%E5%8C%BA%E5%9F%9F%E5%8F%8A%E5%85%B6%E4%BB%96%E7%89%B9%E6%80%A7"><span class="toc-number">2.</span> <span class="toc-text">OSPF特殊区域及其他特性</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80-2"><span class="toc-number">2.1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E6%A0%87-1"><span class="toc-number">2.2.</span> <span class="toc-text">目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95-1"><span class="toc-number">2.3.</span> <span class="toc-text">目录</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Stub%E5%8C%BA%E5%9F%9F"><span class="toc-number">2.3.1.</span> <span class="toc-text">Stub区域</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Totally-Stub%E5%8C%BA%E5%9F%9F"><span class="toc-number">2.3.2.</span> <span class="toc-text">Totally Stub区域</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NSSA%E5%8C%BA%E5%9F%9F"><span class="toc-number">2.3.3.</span> <span class="toc-text">NSSA区域</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Totally-NSSA%E5%8C%BA%E5%9F%9F"><span class="toc-number">2.3.4.</span> <span class="toc-text">Totally NSSA区域</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8C%BA%E5%9F%9F%E9%97%B4%E8%B7%AF%E7%94%B1%E6%B1%87%E6%80%BB"><span class="toc-number">2.3.5.</span> <span class="toc-text">区域间路由汇总</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%96%E9%83%A8%E8%B7%AF%E7%94%B1%E6%B1%87%E6%80%BB"><span class="toc-number">2.3.6.</span> <span class="toc-text">外部路由汇总</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Silent-Interface"><span class="toc-number">2.3.7.</span> <span class="toc-text">Silent-Interface</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OSPF%E6%8A%A5%E6%96%87%E8%AE%A4%E8%AF%81"><span class="toc-number">2.3.8.</span> <span class="toc-text">OSPF报文认证</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%9D%E8%80%83%E9%A2%98-2"><span class="toc-number">2.4.</span> <span class="toc-text">思考题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AC%E7%AB%A0%E6%80%BB%E7%BB%93-1"><span class="toc-number">2.5.</span> <span class="toc-text">本章总结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#IS-IS%E5%8E%9F%E7%90%86%E4%B8%8E%E9%85%8D%E7%BD%AE"><span class="toc-number">3.</span> <span class="toc-text">IS-IS原理与配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80-3"><span class="toc-number">3.1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E6%A0%87-2"><span class="toc-number">3.2.</span> <span class="toc-text">目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95-2"><span class="toc-number">3.3.</span> <span class="toc-text">目录</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#IS-IS%E6%A6%82%E8%BF%B0"><span class="toc-number">3.3.1.</span> <span class="toc-text">IS-IS概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NSAP"><span class="toc-number">3.3.2.</span> <span class="toc-text">NSAP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NET"><span class="toc-number">3.3.3.</span> <span class="toc-text">NET</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IS-IS%E5%8C%BA%E5%9F%9F%E5%88%92%E5%88%86"><span class="toc-number">3.3.4.</span> <span class="toc-text">IS-IS区域划分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IS-IS%E8%B7%AF%E7%94%B1%E5%99%A8%E5%88%86%E7%B1%BB"><span class="toc-number">3.3.5.</span> <span class="toc-text">IS-IS路由器分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IS-IS%E6%94%AF%E6%8C%81%E7%9A%84%E7%BD%91%E7%BB%9C%E7%B1%BB%E5%9E%8B"><span class="toc-number">3.3.6.</span> <span class="toc-text">IS-IS支持的网络类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IS-IS%E5%BC%80%E9%94%80%E5%80%BC"><span class="toc-number">3.3.7.</span> <span class="toc-text">IS-IS开销值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IS-IS%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F"><span class="toc-number">3.3.8.</span> <span class="toc-text">IS-IS报文格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IS-IS%E9%82%BB%E6%8E%A5%E5%85%B3%E7%B3%BB%E5%BB%BA%E7%AB%8B"><span class="toc-number">3.3.9.</span> <span class="toc-text">IS-IS邻接关系建立</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LSP"><span class="toc-number">3.3.10.</span> <span class="toc-text">LSP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LSDB%E5%90%8C%E6%AD%A5"><span class="toc-number">3.3.11.</span> <span class="toc-text">LSDB同步</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E8%AE%A1%E7%AE%97"><span class="toc-number">3.3.12.</span> <span class="toc-text">路由计算</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IS-IS%E5%8D%8F%E8%AE%AE%E7%9A%84%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE"><span class="toc-number">3.3.13.</span> <span class="toc-text">IS-IS协议的基本配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E6%B8%97%E9%80%8F"><span class="toc-number">3.3.14.</span> <span class="toc-text">路由渗透</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IS-IS%E8%AE%A4%E8%AF%81"><span class="toc-number">3.3.15.</span> <span class="toc-text">IS-IS认证</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-history"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/12/21/hello-world/" title="Hello World"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://file.crazywong.com/gh/jerryc127/CDN@latest/cover/default_bg2.png?_r_=30404d0c-eba2-684f-aaa2-494bea2292d1" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hello World"/></a><div class="content"><a class="title" href="/2025/12/21/hello-world/" title="Hello World">Hello World</a><time datetime="2025-12-21T15:34:56.793Z" title="发表于 2025-12-21 23:34:56">2025-12-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/28/Markdown%E2%95%99%E2%88%A9%E2%95%96%C2%BF/" title="Markdown语法"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://s2.loli.net/2023/06/26/f2knxLCUB9yFQXr.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Markdown语法"/></a><div class="content"><a class="title" href="/2025/04/28/Markdown%E2%95%99%E2%88%A9%E2%95%96%C2%BF/" title="Markdown语法">Markdown语法</a><time datetime="2025-04-28T13:52:02.000Z" title="发表于 2025-04-28 21:52:02">2025-04-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/25/%C3%AD%E2%95%9B%E2%95%93%C2%AC%E2%95%A9%E2%95%A2%E2%95%A1%CF%80%E2%95%AB%E2%96%84%E2%95%9C%C3%9F%C3%AD%E2%94%90%E2%94%80%C3%BA%E2%94%80%CE%93%E2%95%A1%CF%84%E2%95%AB%E2%95%99%E2%95%9D%E2%95%9D%E2%95%A9%E2%8C%A1%C3%BA%C2%BF%E2%94%80%C3%BA%E2%95%A1%CF%84%C3%BA%E2%8C%90/" title="【知识点总结】模拟电子技术（模电）"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://s2.loli.net/2023/06/26/f2knxLCUB9yFQXr.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【知识点总结】模拟电子技术（模电）"/></a><div class="content"><a class="title" href="/2025/04/25/%C3%AD%E2%95%9B%E2%95%93%C2%AC%E2%95%A9%E2%95%A2%E2%95%A1%CF%80%E2%95%AB%E2%96%84%E2%95%9C%C3%9F%C3%AD%E2%94%90%E2%94%80%C3%BA%E2%94%80%CE%93%E2%95%A1%CF%84%E2%95%AB%E2%95%99%E2%95%9D%E2%95%9D%E2%95%A9%E2%8C%A1%C3%BA%C2%BF%E2%94%80%C3%BA%E2%95%A1%CF%84%C3%BA%E2%8C%90/" title="【知识点总结】模拟电子技术（模电）">【知识点总结】模拟电子技术（模电）</a><time datetime="2025-04-25T15:55:44.000Z" title="发表于 2025-04-25 23:55:44">2025-04-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/12/24/12.24/" title="华为防火墙技术"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://s2.loli.net/2023/06/26/f2knxLCUB9yFQXr.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="华为防火墙技术"/></a><div class="content"><a class="title" href="/2024/12/24/12.24/" title="华为防火墙技术">华为防火墙技术</a><time datetime="2024-12-24T08:12:22.000Z" title="发表于 2024-12-24 16:12:22">2024-12-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/12/24/1224/" title="1224"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://s2.loli.net/2023/06/26/f2knxLCUB9yFQXr.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="1224"/></a><div class="content"><a class="title" href="/2024/12/24/1224/" title="1224">1224</a><time datetime="2024-12-24T08:12:22.000Z" title="发表于 2024-12-24 16:12:22">2024-12-24</time></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div id="footer_deal"><a class="deal_link" href="mailto:lele0857@outlook.com" title="email"><i class="anzhiyufont anzhiyufont anzhiyu-icon-envelope"></i></a><a class="deal_link" target="_blank" rel="noopener" href="https://weibo.com/u/6378063631" title="微博"><i class="anzhiyufont anzhiyufont anzhiyu-icon-weibo"></i></a><a class="deal_link" target="_blank" rel="noopener" href="https://www.facebook.com/profile.php?id=100092208016287&amp;sk=about" title="facebook"><i class="anzhiyufont anzhiyufont anzhiyu-icon-facebook1"></i></a><img class="footer_mini_logo" title="返回顶部" alt="返回顶部" onclick="anzhiyu.scrollToDest(0, 500)" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://s2.loli.net/2023/06/26/Wox4YqVQzy9RehX.jpg" size="50px"/><a class="deal_link" target="_blank" rel="noopener" href="https://github.com/anzhiyu-c" title="Github"><i class="anzhiyufont anzhiyufont anzhiyu-icon-github"></i></a><a class="deal_link" target="_blank" rel="noopener" href="https://space.bilibili.com/341232484" title="Bilibili"><i class="anzhiyufont anzhiyufont anzhiyu-icon-bilibili"></i></a><a class="deal_link" target="_blank" rel="noopener" href="https://v.douyin.com/DwCpMEy/" title="抖音"><i class="anzhiyufont anzhiyufont anzhiyu-icon-tiktok"></i></a></div><div id="anzhiyu-footer"><div class="footer-group"><div class="footer-title">服务</div><div class="footer-links"><a class="footer-item" title="51la统计" target="_blank" rel="noopener" href="https://v6.51.la/">51la统计</a><a class="footer-item" title="十年之约" target="_blank" rel="noopener" href="https://www.foreverblog.cn/">十年之约</a><a class="footer-item" title="开往" target="_blank" rel="noopener" href="https://github.com/travellings-link/travellings">开往</a></div></div><div class="footer-group"><div class="footer-title">主题</div><div class="footer-links"><a class="footer-item" title="文档" href="/docs/">文档</a><a class="footer-item" title="源码" target="_blank" rel="noopener" href="https://github.com/anzhiyu-c/hexo-theme-anzhiyu">源码</a><a class="footer-item" title="更新日志" href="/update/">更新日志</a></div></div><div class="footer-group"><div class="footer-title">导航</div><div class="footer-links"><a class="footer-item" title="即刻短文" href="/essay/">即刻短文</a><a class="footer-item" title="友链文章" href="/fcircle/">友链文章</a><a class="footer-item" title="留言板" href="/comments/">留言板</a></div></div><div class="footer-group"><div class="footer-title">协议</div><div class="footer-links"><a class="footer-item" title="隐私协议" href="/privacy/">隐私协议</a><a class="footer-item" title="Cookies" href="/cookies/">Cookies</a><a class="footer-item" title="版权协议" href="/copyright/">版权协议</a></div></div><div class="footer-group"><div class="footer-title-group"><div class="footer-title">友链</div><a class="random-friends-btn" id="footer-random-friends-btn" href="javascript:addFriendLinksInFooter();" title="换一批友情链接"><i class="anzhiyufont anzhiyu-icon-arrow-rotate-right"></i></a></div><div class="footer-links" id="friend-links-in-footer"></div></div></div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px" data-title="博客框架为Hexo_v5.4.0" title="博客框架为Hexo_v5.4.0"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://npm.elemecdn.com/anzhiyu-blog@2.1.5/img/badge/Frame-Hexo.svg" alt="博客框架为Hexo_v5.4.0"/></a><a class="github-badge" target="_blank" href="https://blog.anheyu.com/" style="margin-inline:5px" data-title="本站使用AnZhiYu主题" title="本站使用AnZhiYu主题"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.9/img/Theme-AnZhiYu-2E67D3.svg" alt="本站使用AnZhiYu主题"/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px" data-title="本站项目由Github托管" title="本站项目由Github托管"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://npm.elemecdn.com/anzhiyu-blog@2.1.5/img/badge/Source-Github.svg" alt="本站项目由Github托管"/></a><a class="github-badge" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" style="margin-inline:5px" data-title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://npm.elemecdn.com/anzhiyu-blog@2.2.0/img/badge/Copyright-BY-NC-SA.svg" alt="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"/></a></p></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div id="footer-bar-tips"><div class="copyright">&copy;2020 - 2026 By <a class="footer-bar-link" href="/" title="樂乐" target="_blank">樂乐</a></div></div><div id="footer-type-tips"></div><div class="js-pjax"><script>function subtitleType () {
+  fetch('https://v1.hitokoto.cn')
+    .then(response => response.json())
+    .then(data => {
+      if (true) {
+        const from = '出自 ' + data.from
+        const sub = []
+        sub.unshift(data.hitokoto, from)
+        window.typed = new Typed('#footer-type-tips', {
+          strings: sub,
+          startDelay: 300,
+          typeSpeed: 150,
+          loop: true,
+          backSpeed: 50,
+        })
+      } else {
+        document.getElementById('footer-type-tips').innerHTML = data.hitokoto
+      }
+    })
+}
+
+if (true) {
+  if (typeof Typed === 'function') {
+    subtitleType()
+  } else {
+    getScript('https://cdn.cbd.int/typed.js@2.1.0/dist/typed.umd.js').then(subtitleType)
+  }
+} else {
+  subtitleType()
+}
+</script></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/anzhiyu-c/hexo-theme-anzhiyu" title="主题">主题</a><a class="footer-bar-link" target="_blank" rel="noopener" href="https://beian.miit.gov.cn/" title="青ICP备-0905083号">青ICP备-0905083号</a></div></div></div></footer></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="sidebar-site-data site-data is-center"><a href="/archives/" title="archive"><div class="headline">文章</div><div class="length-num">43</div></a><a href="/tags/" title="tag"><div class="headline">标签</div><div class="length-num">19</div></a><a href="/categories/" title="category"><div class="headline">分类</div><div class="length-num">4</div></a></div><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><a class="darkmode_switchbutton menu-child" href="javascript:void(0);" title="显示模式"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span>显示模式</span></a></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">网页</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://blog.anheyu.com/" title="博客"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/favicon.ico" alt="博客"/><span class="back-menu-item-text">博客</span></a></div></div><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://image.anheyu.com/" title="安知鱼图床"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://image.anheyu.com/favicon.ico" alt="安知鱼图床"/><span class="back-menu-item-text">安知鱼图床</span></a></div></div></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> 隧道</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分类</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 友链</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/link/"><i class="anzhiyufont anzhiyu-icon-link faa-tada" style="font-size: 0.9em;"></i><span> 友人帐</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/comments/"><i class="anzhiyufont anzhiyu-icon-envelope faa-tada" style="font-size: 0.9em;"></i><span> 留言板</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 我的</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/music/?id=8335997312&amp;server=tencent"><i class="anzhiyufont anzhiyu-icon-music faa-tada" style="font-size: 0.9em;"></i><span> 音乐馆</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/bangumis/"><i class="anzhiyufont anzhiyu-icon-bilibili faa-tada" style="font-size: 0.9em;"></i><span> 追番页</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/cinemas/"><i class="anzhiyufont anzhiyu-icon-bilibili faa-tada" style="font-size: 0.9em;"></i><span> 追剧页</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/album/"><i class="anzhiyufont anzhiyu-icon-images faa-tada" style="font-size: 0.9em;"></i><span> 相册集</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/air-conditioner/"><i class="anzhiyufont anzhiyu-icon-fan faa-tada" style="font-size: 0.9em;"></i><span> 小空调</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 关于</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/about/"><i class="anzhiyufont anzhiyu-icon-paper-plane faa-tada" style="font-size: 0.9em;"></i><span> 关于本人</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/essay/"><i class="anzhiyufont anzhiyu-icon-lightbulb faa-tada" style="font-size: 0.9em;"></i><span> 闲言碎语</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/equipment/"><i class="anzhiyufont anzhiyu-icon-dice-d20 faa-tada" style="font-size: 0.9em;"></i><span> 我的装备</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/wish/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-fanchuan"></use></svg><span> 心愿池</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/todo/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-bijiben"></use></svg><span> 清单</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/ArchLinux/" style="font-size: 0.88rem;">ArchLinux<sup>1</sup></a><a href="/tags/Butterfly/" style="font-size: 0.88rem;">Butterfly<sup>1</sup></a><a href="/tags/Butterfly%E9%AD%94%E6%94%B9/" style="font-size: 0.88rem;">Butterfly魔改<sup>1</sup></a><a href="/tags/Hexo/" style="font-size: 0.88rem;">Hexo<sup>1</sup></a><a href="/tags/Markdown/" style="font-size: 0.88rem;">Markdown<sup>1</sup></a><a href="/tags/MathLax/" style="font-size: 0.88rem;">MathLax<sup>1</sup></a><a href="/tags/Python/" style="font-size: 0.88rem;">Python<sup>1</sup></a><a href="/tags/eNSP/" style="font-size: 0.88rem;">eNSP<sup>20</sup></a><a href="/tags/%E5%A4%A7%E5%AD%A6/" style="font-size: 0.88rem;">大学<sup>3</sup></a><a href="/tags/%E6%97%A5%E5%B8%B8/" style="font-size: 0.88rem;">日常<sup>4</sup></a><a href="/tags/%E6%A8%82%E8%B0%B1/" style="font-size: 0.88rem;">樂谱<sup>9</sup></a><a href="/tags/%E6%A8%A1%E6%8B%9F%E7%94%B5%E5%AD%90%E6%8A%80%E6%9C%AF%EF%BC%88%E6%A8%A1%E7%94%B5%EF%BC%89/" style="font-size: 0.88rem;">模拟电子技术（模电）<sup>1</sup></a><a href="/tags/%E6%A8%A1%E7%94%B5/" style="font-size: 0.88rem;">模电<sup>1</sup></a><a href="/tags/%E7%A7%91%E7%9B%AE%E4%B8%89/" style="font-size: 0.88rem;">科目三<sup>1</sup></a><a href="/tags/%E7%B3%BB%E7%BB%9F/" style="font-size: 0.88rem;">系统<sup>1</sup></a><a href="/tags/%E7%BB%83%E8%BD%A6/" style="font-size: 0.88rem;">练车<sup>1</sup></a><a href="/tags/%E8%8A%82%E6%B0%94/" style="font-size: 0.88rem;">节气<sup>1</sup></a><a href="/tags/%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/" style="font-size: 0.88rem;">课堂笔记<sup>4</sup></a><a href="/tags/%E9%92%A2%E7%90%B4%F0%9F%8E%B9/" style="font-size: 0.88rem;">钢琴🎹<sup>1</sup></a></div></div><hr/></div></div><div id="keyboard-tips"><div class="keyboardTitle">博客快捷键</div><div class="keybordList"><div class="keybordItem"><div class="keyGroup"><div class="key">shift K</div></div><div class="keyContent"><div class="content">关闭快捷键功能</div></div></div><div class="keybordItem"><div class="keyGroup"><div class="key">shift A</div></div><div class="keyContent"><div class="content">打开/关闭中控台</div></div></div><div class="keybordItem"><div class="keyGroup"><div class="key">shift M</div></div><div class="keyContent"><div class="content">播放/暂停音乐</div></div></div><div class="keybordItem"><div class="keyGroup"><div class="key">shift D</div></div><div class="keyContent"><div class="content">深色/浅色显示模式</div></div></div><div class="keybordItem"><div class="keyGroup"><div class="key">shift S</div></div><div class="keyContent"><div class="content">站内搜索</div></div></div><div class="keybordItem"><div class="keyGroup"><div class="key">shift R</div></div><div class="keyContent"><div class="content">随机访问</div></div></div><div class="keybordItem"><div class="keyGroup"><div class="key">shift H</div></div><div class="keyContent"><div class="content">返回首页</div></div></div><div class="keybordItem"><div class="keyGroup"><div class="key">shift F</div></div><div class="keyContent"><div class="content">友链鱼塘</div></div></div><div class="keybordItem"><div class="keyGroup"><div class="key">shift L</div></div><div class="keyContent"><div class="content">友链页面</div></div></div><div class="keybordItem"><div class="keyGroup"><div class="key">shift P</div></div><div class="keyContent"><div class="content">关于本站</div></div></div><div class="keybordItem"><div class="keyGroup"><div class="key">shift I</div></div><div class="keyContent"><div class="content">原版/本站右键菜单</div></div></div></div></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="anzhiyufont anzhiyu-icon-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="anzhiyufont anzhiyu-icon-gear"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="anzhiyufont anzhiyu-icon-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="anzhiyufont anzhiyu-icon-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div><div id="nav-music"><a id="nav-music-hoverTips" onclick="anzhiyu.musicToggle()" accesskey="m">播放音乐</a><div id="console-music-bg"></div><meting-js id="8152976493" server="netease" type="playlist" mutex="true" preload="none" theme="var(--anzhiyu-main)" data-lrctype="0" order="random" volume="0.7"></meting-js></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><div class="rightMenu-item" id="menu-backward"><i class="anzhiyufont anzhiyu-icon-arrow-left"></i></div><div class="rightMenu-item" id="menu-forward"><i class="anzhiyufont anzhiyu-icon-arrow-right"></i></div><div class="rightMenu-item" id="menu-refresh"><i class="anzhiyufont anzhiyu-icon-arrow-rotate-right" style="font-size: 1rem;"></i></div><div class="rightMenu-item" id="menu-top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></div></div><div class="rightMenu-group rightMenu-line rightMenuPlugin"><div class="rightMenu-item" id="menu-copytext"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制选中文本</span></div><div class="rightMenu-item" id="menu-pastetext"><i class="anzhiyufont anzhiyu-icon-paste"></i><span>粘贴文本</span></div><a class="rightMenu-item" id="menu-commenttext"><i class="anzhiyufont anzhiyu-icon-comment-medical"></i><span>引用到评论</span></a><div class="rightMenu-item" id="menu-newwindow"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开</span></div><div class="rightMenu-item" id="menu-copylink"><i class="anzhiyufont anzhiyu-icon-link"></i><span>复制链接地址</span></div><div class="rightMenu-item" id="menu-copyimg"><i class="anzhiyufont anzhiyu-icon-images"></i><span>复制此图片</span></div><div class="rightMenu-item" id="menu-downloadimg"><i class="anzhiyufont anzhiyu-icon-download"></i><span>下载此图片</span></div><div class="rightMenu-item" id="menu-newwindowimg"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开图片</span></div><div class="rightMenu-item" id="menu-search"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>站内搜索</span></div><div class="rightMenu-item" id="menu-searchBaidu"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>百度搜索</span></div><div class="rightMenu-item" id="menu-music-toggle"><i class="anzhiyufont anzhiyu-icon-play"></i><span>播放音乐</span></div><div class="rightMenu-item" id="menu-music-back"><i class="anzhiyufont anzhiyu-icon-backward"></i><span>切换到上一首</span></div><div class="rightMenu-item" id="menu-music-forward"><i class="anzhiyufont anzhiyu-icon-forward"></i><span>切换到下一首</span></div><div class="rightMenu-item" id="menu-music-playlist" onclick="window.open(&quot;https://y.qq.com/n/ryqq/playlist/8802438608&quot;, &quot;_blank&quot;);" style="display: none;"><i class="anzhiyufont anzhiyu-icon-radio"></i><span>查看所有歌曲</span></div><div class="rightMenu-item" id="menu-music-copyMusicName"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制歌名</span></div></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item menu-link" id="menu-randomPost"><i class="anzhiyufont anzhiyu-icon-shuffle"></i><span>随便逛逛</span></a><a class="rightMenu-item menu-link" href="/categories/"><i class="anzhiyufont anzhiyu-icon-cube"></i><span>博客分类</span></a><a class="rightMenu-item menu-link" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags"></i><span>文章标签</span></a></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item" id="menu-copy" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制地址</span></a><a class="rightMenu-item" id="menu-commentBarrage" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-message"></i><span class="menu-commentBarrage-text">关闭热评</span></a><a class="rightMenu-item" id="menu-darkmode" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span class="menu-darkmode-text">深色模式</span></a><a class="rightMenu-item" id="menu-translate" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-language"></i><span>轉為繁體</span></a></div></div><div id="rightmenu-mask"></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.cbd.int/@fancyapps/ui@5.0.28/dist/fancybox/fancybox.umd.js"></script><script src="https://cdn.cbd.int/instant.page@5.2.0/instantpage.js" type="module"></script><script src="https://cdn.cbd.int/vanilla-lazyload@17.8.5/dist/lazyload.iife.min.js"></script><script src="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.cbd.int/pangu@4.0.7/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script>var meting_api = "https://music.3e0.cn/?server=:server&type=:type&id=:id&r=:r";
+</script><canvas id="universe"></canvas><script async src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/dark/dark.js"></script><script>// 消除控制台打印
+var HoldLog = console.log;
+console.log = function () {};
+let now1 = new Date();
+queueMicrotask(() => {
+  const Log = function () {
+    HoldLog.apply(console, arguments);
+  }; //在恢复前输出日志
+  const grt = new Date("09/08/2023 00:00:00"); //此处修改你的建站时间或者网站上线时间
+  now1.setTime(now1.getTime() + 250);
+  const days = (now1 - grt) / 1000 / 60 / 60 / 24;
+  const dnum = Math.floor(days);
+  const ascll = [
+    `欢迎使用安知鱼!`,
+    `生活明朗, 万物可爱`,
+    `
+        
+       █████╗ ███╗   ██╗███████╗██╗  ██╗██╗██╗   ██╗██╗   ██╗
+      ██╔══██╗████╗  ██║╚══███╔╝██║  ██║██║╚██╗ ██╔╝██║   ██║
+      ███████║██╔██╗ ██║  ███╔╝ ███████║██║ ╚████╔╝ ██║   ██║
+      ██╔══██║██║╚██╗██║ ███╔╝  ██╔══██║██║  ╚██╔╝  ██║   ██║
+      ██║  ██║██║ ╚████║███████╗██║  ██║██║   ██║   ╚██████╔╝
+      ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝╚═╝   ╚═╝    ╚═════╝
+        
+        `,
+    "已上线",
+    dnum,
+    "天",
+    "©2020 By 安知鱼 V1.6.14",
+  ];
+  const ascll2 = [`NCC2-036`, `调用前置摄像头拍照成功，识别为【小笨蛋】.`, `Photo captured: `, `🤪`];
+
+  setTimeout(
+    Log.bind(
+      console,
+      `\n%c${ascll[0]} %c ${ascll[1]} %c ${ascll[2]} %c${ascll[3]}%c ${ascll[4]}%c ${ascll[5]}\n\n%c ${ascll[6]}\n`,
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      ""
+    )
+  );
+  setTimeout(
+    Log.bind(
+      console,
+      `%c ${ascll2[0]} %c ${ascll2[1]} %c \n${ascll2[2]} %c\n${ascll2[3]}\n`,
+      "color:white; background-color:#4fd953",
+      "",
+      "",
+      'background:url("https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/tinggge.gif") no-repeat;font-size:450%'
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c WELCOME %c 你好，小笨蛋.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(
+      console,
+      "%c ⚡ Powered by 安知鱼 %c 你正在访问 樂乐 的博客.",
+      "color:white; background-color:#f0ad4e",
+      ""
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c W23-12 %c 你已打开控制台.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(console, "%c S013-782 %c 你现在正处于监控中.", "color:white; background-color:#d9534f", "")
+  );
+});</script><script async src="/anzhiyu/random.js"></script><div class="js-pjax"><script>(() => {
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twikoo-maojin.netlify.app/.netlify/functions/twikoo',
+      region: '',
+      onCommentLoaded: () => {
+        anzhiyu.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') setTimeout(runFn,0)
+    else getScript('https://cdn.cbd.int/twikoo@1.6.39/dist/twikoo.all.min.js').then(runFn)
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twikoo-maojin.netlify.app/.netlify/functions/twikoo',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  const runFn = () => {
+    init();
+    
+  }
+
+  if ('Twikoo' === 'Twikoo' || !false) {
+    if (false) anzhiyu.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else {
+      loadTwikoo()
+    }
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script><input type="hidden" name="page-type" id="page-type" value="前端"></div><script>window.addEventListener('load', () => {
+  const changeContent = (content) => {
+    if (content === '') return content
+
+    content = content.replace(/<img.*?src="(.*?)"?[^\>]+>/ig, '[图片]') // replace image link
+    content = content.replace(/<a[^>]+?href=["']?([^"']+)["']?[^>]*>([^<]+)<\/a>/gi, '[链接]') // replace url
+    content = content.replace(/<pre><code>.*?<\/pre>/gi, '[代码]') // replace code
+    content = content.replace(/<[^>]+>/g,"") // remove html tag
+
+    if (content.length > 150) {
+      content = content.substring(0,150) + '...'
+    }
+    return content
+  }
+
+  const getComment = () => {
+    const runTwikoo = () => {
+      twikoo.getRecentComments({
+        envId: 'https://twikoo-maojin.netlify.app/.netlify/functions/twikoo',
+        region: '',
+        pageSize: 6,
+        includeReply: true
+      }).then(function (res) {
+        const twikooArray = res.map(e => {
+          return {
+            'content': changeContent(e.comment),
+            'avatar': e.avatar,
+            'nick': e.nick,
+            'url': e.url + '#' + e.id,
+            'date': new Date(e.created).toISOString()
+          }
+        })
+
+        saveToLocal.set('twikoo-newest-comments', JSON.stringify(twikooArray), 10/(60*24))
+        generateHtml(twikooArray)
+      }).catch(function (err) {
+        const $dom = document.querySelector('#card-newest-comments .aside-list')
+        $dom.textContent= "无法获取评论，请确认相关配置是否正确"
+      })
+    }
+
+    if (typeof twikoo === 'object') {
+      runTwikoo()
+    } else {
+      getScript('https://cdn.cbd.int/twikoo@1.6.39/dist/twikoo.all.min.js').then(runTwikoo)
+    }
+  }
+
+  const generateHtml = array => {
+    let result = ''
+
+    if (array.length) {
+      for (let i = 0; i < array.length; i++) {
+        result += '<div class=\'aside-list-item\'>'
+
+        if (true) {
+          const name = 'data-lazy-src'
+          result += `<a href='${array[i].url}' class='thumbnail'><img ${name}='${array[i].avatar}' alt='${array[i].nick}'><div class='name'><span>${array[i].nick} </span></div></a>`
+        }
+        
+        result += `<div class='content'>
+        <a class='comment' href='${array[i].url}' title='${array[i].content}'>${array[i].content}</a>
+        <time datetime="${array[i].date}">${anzhiyu.diffDate(array[i].date, true)}</time></div>
+        </div>`
+      }
+    } else {
+      result += '没有评论'
+    }
+
+    let $dom = document.querySelector('#card-newest-comments .aside-list')
+    $dom && ($dom.innerHTML= result)
+    window.lazyLoadInstance && window.lazyLoadInstance.update()
+    window.pjax && window.pjax.refresh($dom)
+  }
+
+  const newestCommentInit = () => {
+    if (document.querySelector('#card-newest-comments .aside-list')) {
+      const data = saveToLocal.get('twikoo-newest-comments')
+      if (data) {
+        generateHtml(JSON.parse(data))
+      } else {
+        getComment()
+      }
+    }
+  }
+
+  newestCommentInit()
+  document.addEventListener('pjax:complete', newestCommentInit)
+})</script><script async data-pjax src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.1/bubble/bubble.js"></script><script>var visitorMail = "visitor@anheyu.com";
+</script><script async data-pjax src="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/waterfall/waterfall.js"></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/qrcodejs/1.0.0/qrcode.min.js"></script><script src="/js/anzhiyu/right_click_menu.js"></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.9/icon/ali_iconfont_css.css"><script async src="https://at.alicdn.com/t/c/font_4607084_asowc2gymd.js"></script><script type="text/javascript" src="/js/memos/project.js"></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/aplayer/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.cbd.int/anzhiyu-blog-static@1.0.1/js/APlayer.min.js"></script><script src="https://cdn.cbd.int/hexo-anzhiyu-music@1.0.1/assets/js/Meting2.min.js"></script><script src="https://cdn.cbd.int/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["meta[property=\"og:image\"]","meta[property=\"og:title\"]","meta[property=\"og:url\"]","meta[property=\"og:type\"]","meta[property=\"og:site_name\"]","meta[property=\"og:description\"]","head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"]):not([href="/music/"]):not([href="/no-pjax/"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+  // removeEventListener scroll 
+  anzhiyu.removeGlobalFnEvent('pjax')
+  anzhiyu.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script charset="UTF-8" src="https://cdn.cbd.int/anzhiyu-theme-static@1.1.5/accesskey/accesskey.js"></script></div><div id="popup-window"><div class="popup-window-title">通知</div><div class="popup-window-divider"></div><div class="popup-window-content"><div class="popup-tip">你好呀</div><div class="popup-link"><i class="anzhiyufont anzhiyu-icon-arrow-circle-right"></i></div></div></div></body></html>
